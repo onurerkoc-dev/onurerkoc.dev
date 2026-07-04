@@ -1,121 +1,147 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+    <main className="siteShell">
+      <div className="backgroundGrid" />
+
+      <nav className="navbar">
+        <a className="brand" href="#top">
+          <span className="brandMark">OE</span>
+          <span>onurerkoc.dev</span>
+        </a>
+
+        <div className="navLinks">
+          <a href="#about">about</a>
+          <a href="#work">work</a>
+          <a href="#stack">stack</a>
+          <a href="#contact">contact</a>
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
+      </nav>
+
+      <section id="top" className="hero">
+        <div className="heroContent">
+          <p className="kicker">/ full-stack systems / backend / security-minded engineering</p>
+
+          <h1>
+            Building production-style web systems with
+            <span> React, Spring Boot and Linux.</span>
+          </h1>
+
+          <p className="heroText">
+            I am building onurerkoc.dev as a real engineering project: frontend,
+            backend API, PostgreSQL, Docker, deployment, monitoring and clean Git workflow.
           </p>
+
+          <div className="heroActions">
+            <a className="buttonPrimary" href="#work">View build log</a>
+            <a
+              className="buttonGhost"
+              href="https://github.com/onurerkoc-dev"
+              target="_blank"
+              rel="noreferrer"
+            >
+              GitHub
+            </a>
+          </div>
         </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
+
+        <aside className="terminalCard" aria-label="project status terminal">
+          <div className="terminalTopbar">
+            <span />
+            <span />
+            <span />
+          </div>
+
+          <div className="terminalBody">
+            <p><span className="prompt">onur@server</span>:~$ systemctl status portfolio</p>
+            <p className="terminalGreen">● active — learning in progress</p>
+            <p><span className="prompt">stack</span> react + spring_boot + postgres + docker</p>
+            <p><span className="prompt">region</span> digitalocean / fra1</p>
+            <p><span className="prompt">mode</span> build → document → deploy → improve</p>
+          </div>
+        </aside>
       </section>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+      <section id="about" className="section splitSection">
+        <div>
+          <p className="sectionTag">01 / about</p>
+          <h2>Not a template portfolio. A build journal.</h2>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
+
+        <p>
+          This site is my personal full-stack lab. I use it to practice real
+          developer workflow: Git branches, pull requests, REST APIs, server setup,
+          Docker, deployment and production thinking.
+        </p>
+      </section>
+
+      <section id="work" className="section">
+        <p className="sectionTag">02 / current build</p>
+        <h2>Project modules</h2>
+
+        <div className="workGrid">
+          <article className="workCard">
+            <span className="cardNumber">01</span>
+            <h3>Frontend Interface</h3>
+            <p>
+              React + Vite interface with a custom red-team inspired visual system,
+              responsive layout and clean component structure.
+            </p>
+            <div className="cardFooter">status: initialized</div>
+          </article>
+
+          <article className="workCard">
+            <span className="cardNumber">02</span>
+            <h3>Spring Boot API</h3>
+            <p>
+              Backend service for projects, skills, contact messages and later
+              admin operations with validation and clean layers.
+            </p>
+            <div className="cardFooter">status: next</div>
+          </article>
+
+          <article className="workCard">
+            <span className="cardNumber">03</span>
+            <h3>Docker Deployment</h3>
+            <p>
+              Containerized frontend, backend and PostgreSQL setup running on a
+              DigitalOcean Ubuntu server behind Nginx.
+            </p>
+            <div className="cardFooter">status: planned</div>
+          </article>
         </div>
       </section>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      <section id="stack" className="section stackSection">
+        <div>
+          <p className="sectionTag">03 / stack</p>
+          <h2>Tools I am using to build this properly.</h2>
+        </div>
+
+        <div className="stackList">
+          <span>Java</span>
+          <span>Spring Boot</span>
+          <span>React</span>
+          <span>Vite</span>
+          <span>PostgreSQL</span>
+          <span>Docker</span>
+          <span>Git</span>
+          <span>Linux</span>
+          <span>Nginx</span>
+          <span>DigitalOcean</span>
+        </div>
+      </section>
+
+      <section id="contact" className="section contactSection">
+        <p className="sectionTag">04 / contact</p>
+        <h2>Open to backend, full-stack and infrastructure-focused internships.</h2>
+        <p>
+          The contact form will be connected to the Spring Boot backend later.
+          For now, GitHub and LinkedIn links will be added here.
+        </p>
+      </section>
+    </main>
   )
 }
 
