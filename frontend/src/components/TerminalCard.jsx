@@ -1,30 +1,41 @@
-import BackendStatus from './BackendStatus' 
+import BackendStatus from './BackendStatus'
 
 function TerminalCard() {
   return (
-    <aside className="terminalCard" aria-label="project status terminal">
-      <div className="terminalTopbar">
-        <span />
-        <span />
-        <span />
+    <aside className="terminalCard" aria-label="system overview">
+      <div className="systemPanelHeader">
+        <span>system ledger</span>
+        <span>v0.4.0</span>
       </div>
 
-      <div className="terminalBody">
-        <p>
-          <span className="prompt">onur@server</span>:~$ systemctl status portfolio
-        </p>
-        <p className="terminalGreen">● active — learning in progress</p>
-        <p>
-          <span className="prompt">stack</span> react + spring_boot + postgres + docker
-        </p>
-        <p>
-          <span className="prompt">region</span> digitalocean / fra1
-        </p>
-        <p>
-          <span className="prompt">mode</span> build → document → deploy → improve
-        </p>
-        <BackendStatus />
+      <div className="systemRows">
+        <div className="systemRow">
+          <span>frontend</span>
+          <strong>React + Vite</strong>
+        </div>
+
+        <div className="systemRow">
+          <span>backend</span>
+          <strong>Spring Boot</strong>
+        </div>
+
+        <div className="systemRow">
+          <span>api</span>
+          <strong>/health · /projects</strong>
+        </div>
+
+        <div className="systemRow">
+          <span>infra</span>
+          <strong>DigitalOcean / FRA1</strong>
+        </div>
+
+        <div className="systemRow">
+          <span>mode</span>
+          <strong>build → document → deploy</strong>
+        </div>
       </div>
+
+      <BackendStatus />
     </aside>
   )
 }

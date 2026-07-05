@@ -1,19 +1,22 @@
-function WorkCard({ number, title, description, techStack, status }) {
+function WorkCard({ number, title, description, techStack = [], status }) {
   return (
-    <article className="workCard">
-      <span className="cardNumber">{number}</span>
+    <article className="workItem">
+      <div className="workItemIndex">{number}</div>
 
-      <h3>{title}</h3>
+      <div className="workItemMain">
+        <div className="workItemHeader">
+          <h3>{title}</h3>
+          <span className="workItemStatus">{status}</span>
+        </div>
 
-      <p>{description}</p>
+        <p>{description}</p>
 
-      <div className="techStack">
-        {techStack.map((tech) => (
-          <span key={tech}>{tech}</span>
-        ))}
+        <div className="techStack">
+          {techStack.map((tech) => (
+            <span key={tech}>{tech}</span>
+          ))}
+        </div>
       </div>
-
-      <div className="cardFooter">status: {status}</div>
     </article>
   )
 }
