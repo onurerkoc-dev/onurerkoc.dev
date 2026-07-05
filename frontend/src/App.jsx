@@ -4,30 +4,7 @@ import Navbar from './components/Navbar'
 import Section from './components/Section'
 import StackList from './components/StackList'
 import WorkCard from './components/WorkCard'
-
-const projectModules = [
-  {
-    number: '01',
-    title: 'Frontend Interface',
-    description:
-      'React + Vite interface with a custom red-team inspired visual system, responsive layout and clean component structure.',
-    status: 'initialized',
-  },
-  {
-    number: '02',
-    title: 'Spring Boot API',
-    description:
-      'Backend service for projects, skills, contact messages and later admin operations with validation and clean layers.',
-    status: 'next',
-  },
-  {
-    number: '03',
-    title: 'Docker Deployment',
-    description:
-      'Containerized frontend, backend and PostgreSQL setup running on a DigitalOcean Ubuntu server behind Nginx.',
-    status: 'planned',
-  },
-]
+import ProjectsSection from './components/ProjectsSection'
 
 function App() {
   return (
@@ -51,22 +28,7 @@ function App() {
         </p>
       </Section>
 
-      <section id="work" className="section">
-        <p className="sectionTag">02 / current build</p>
-        <h2>Project modules</h2>
-
-        <div className="workGrid">
-          {projectModules.map((project) => (
-            <WorkCard
-              key={project.number}
-              number={project.number}
-              title={project.title}
-              description={project.description}
-              status={project.status}
-            />
-          ))}
-        </div>
-      </section>
+    <ProjectsSection />
 
       <Section
         id="stack"
