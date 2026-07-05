@@ -1,3 +1,5 @@
+import BackendStatus from './BackendStatus' 
+
 function TerminalCard() {
   return (
     <aside className="terminalCard" aria-label="project status terminal">
@@ -21,6 +23,7 @@ function TerminalCard() {
         <p>
           <span className="prompt">mode</span> build → document → deploy → improve
         </p>
+        <BackendStatus />
       </div>
     </aside>
   )
