@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { getProjects } from '../api/projectsApi'
 import WorkCard from './WorkCard'
 
 function ProjectsSection() {
@@ -11,15 +12,9 @@ function ProjectsSection() {
 
     async function loadProjects() {
       try {
-        const response = await fetch('/api/projects', {
+        const data = await getProjects({
           signal: controller.signal,
         })
-
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}`)
-        }
-
-        const data = await response.json()
 
         setProjects(data)
         setStatus('success')

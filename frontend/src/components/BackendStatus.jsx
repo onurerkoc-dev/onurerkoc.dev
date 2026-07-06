@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { getBackendHealth } from '../api/healthApi'
 
 function BackendStatus() {
   const [message, setMessage] = useState('Checking backend...')
@@ -9,15 +10,9 @@ function BackendStatus() {
 
     async function checkBackend() {
       try {
-        const response = await fetch('/api/health', {
+        const data = await getBackendHealth({
           signal: controller.signal,
         })
-
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}`)
-        }
-
-        const data = await response.text()
 
         setMessage(data)
         setStatus('online')
