@@ -43,7 +43,7 @@ It is being developed to practice and document:
 
 ## Project Structure
 
-```text
+
 onurerkoc.dev/
 ├── frontend/
 │   ├── src/
@@ -65,6 +65,7 @@ onurerkoc.dev/
 │   └── pom.xml
 │
 └── README.md
+
 Local Development
 
 The frontend and backend run as separate applications during development.
