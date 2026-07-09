@@ -1,21 +1,53 @@
-function WorkCard({ number, title, description, techStack = [], status }) {
+function WorkCard({
+  number,
+  title,
+  type,
+  summary,
+  description,
+  techStack = [],
+  status,
+  githubUrl,
+  liveUrl,
+  featured,
+}) {
   return (
-    <article className="workItem">
+    <article className={`workItem ${featured ? 'featuredWorkItem' : ''}`}>
       <div className="workItemIndex">{number}</div>
 
       <div className="workItemMain">
         <div className="workItemHeader">
-          <h3>{title}</h3>
+          <div>
+            <p className="workItemType">{type}</p>
+            <h3>{title}</h3>
+          </div>
+
           <span className="workItemStatus">{status}</span>
         </div>
 
-        <p>{description}</p>
+        <p className="workItemSummary">{summary}</p>
+        <p className="workItemDescription">{description}</p>
 
         <div className="techStack">
           {techStack.map((tech) => (
             <span key={tech}>{tech}</span>
           ))}
         </div>
+
+        {(githubUrl || liveUrl) && (
+          <div className="workItemLinks">
+            {githubUrl && (
+              <a href={githubUrl} target="_blank" rel="noreferrer">
+                GitHub
+              </a>
+            )}
+
+            {liveUrl && (
+              <a href={liveUrl} target="_blank" rel="noreferrer">
+                Live
+              </a>
+            )}
+          </div>
+        )}
       </div>
     </article>
   )

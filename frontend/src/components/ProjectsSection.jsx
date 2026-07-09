@@ -51,14 +51,19 @@ function ProjectsSection() {
       {status === 'success' && (
         <div className="workGrid">
           {projects.map((project, index) => (
-            <WorkCard
-              key={project.title}
-              number={String(index + 1).padStart(2, '0')}
-              title={project.title}
-              description={project.description}
-              techStack={project.techStack}
-              status={project.status}
-            />
+<WorkCard
+  key={project.id}
+  number={String(index + 1).padStart(2, '0')}
+  title={project.title}
+  type={project.type}
+  summary={project.summary}
+  description={project.description}
+  techStack={project.techStack}
+  status={project.status}
+  githubUrl={project.githubUrl}
+  liveUrl={project.liveUrl}
+  featured={project.featured}
+/>
           ))}
         </div>
       )}
