@@ -3,6 +3,7 @@ package com.onurerkoc.backend.project;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProjectService {
@@ -49,5 +50,16 @@ public class ProjectService {
                         false
                 )
         );
+    }
+    public Optional<ProjectDto> getProjectBySlug(String slug) {
+        List<ProjectDto> projects = getProjects();
+
+        for (ProjectDto project : projects) {
+            if (project.slug().equals(slug)) {
+                return Optional.of(project);
+            }
+        }
+
+        return Optional.empty();
     }
 }
