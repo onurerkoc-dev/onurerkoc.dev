@@ -1,3 +1,5 @@
+import { Link } from 'react-router'
+
 function WorkCard({
   number,
   title,
@@ -9,6 +11,7 @@ function WorkCard({
   githubUrl,
   liveUrl,
   featured,
+    slug,
 }) {
   return (
     <article className={`workItem ${featured ? 'featuredWorkItem' : ''}`}>
@@ -32,6 +35,12 @@ function WorkCard({
             <span key={tech}>{tech}</span>
           ))}
         </div>
+        <Link
+            to={`/projects/${slug}`}
+            className="workItemDetailLink"
+        >
+          Open module →
+        </Link>
 
         {(githubUrl || liveUrl) && (
           <div className="workItemLinks">

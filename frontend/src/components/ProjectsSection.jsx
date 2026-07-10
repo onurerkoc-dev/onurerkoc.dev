@@ -63,6 +63,7 @@ function ProjectsSection() {
   githubUrl={project.githubUrl}
   liveUrl={project.liveUrl}
   featured={project.featured}
+  slug = {project.slug}
 />
           ))}
         </div>

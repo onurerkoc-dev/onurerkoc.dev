@@ -102,6 +102,32 @@ The frontend runs on:
 
 http://localhost:5173
 Frontend API Layer
+## Frontend Routing
+
+The frontend uses React Router for client-side navigation.
+
+Current routes:
+
+
+/                       -> Home page
+/projects/:slug         -> Project detail page
+Example project detail routes:
+/projects/onurerkoc-dev
+/projects/portfolio-api
+/projects/deployment-lab
+Project cards link to their detail pages using each project's slug.
+
+The project detail request flow is:
+
+WorkCard
+-> React Router Link
+-> ProjectDetailPage
+-> useParams
+-> getProjectBySlug
+-> GET /api/projects/{slug}
+-> Spring Boot backend
+
+
 
 Frontend API calls are centralized under:
 
