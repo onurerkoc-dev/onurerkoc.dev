@@ -89,6 +89,7 @@ Available API endpoints:
 
 GET /api/health
 GET /api/projects
+GET /api/projects/{slug}
 2. Start the frontend
 
 Open a second terminal in the project root:
@@ -110,7 +111,7 @@ Current API files:
 
 client.js       -> shared API request helper
 healthApi.js    -> backend health endpoint
-projectsApi.js  -> project modules endpoint
+projectsApi.js  -> project list and project detail endpoints
 
 Components should not call backend endpoints directly with fetch('/api/...').
 
