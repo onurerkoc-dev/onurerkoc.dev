@@ -13,6 +13,12 @@ public record ProjectDto(
         String status,
         String githubUrl,
         String liveUrl,
-        boolean featured
+        boolean featured,
+        String problem,
+        String goal,
+        String architecture,
+        List<String> keyDecisions,
+        List<String> nextSteps,
+        String updatedAt
 ) {
 }
