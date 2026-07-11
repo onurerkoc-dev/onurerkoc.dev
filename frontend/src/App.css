@@ -678,3 +678,87 @@ a {
   border-color: var(--accent);
   transform: translateX(4px);
 }
+.projectCaseStudy {
+  display: grid;
+  gap: 72px;
+}
+
+.projectDetailHeader {
+  padding-bottom: 48px;
+  border-bottom: 1px solid var(--line);
+}
+
+.caseStudyGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.caseStudyBlock {
+  padding: 28px 0;
+  border-top: 1px solid var(--line);
+}
+
+.caseStudyBlockWide {
+  max-width: 900px;
+}
+
+.caseStudyLabel {
+  margin: 0 0 18px;
+  color: var(--accent);
+  font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.caseStudyBlock h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: clamp(26px, 4vw, 42px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+
+.caseStudyBlock > p:not(.caseStudyLabel) {
+  max-width: 760px;
+  margin: 20px 0 0;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.caseStudyList {
+  display: grid;
+  gap: 14px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.caseStudyList li {
+  position: relative;
+  padding-left: 24px;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.caseStudyList li::before {
+  content: "↳";
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: var(--accent);
+  font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
+}
+
+@media (max-width: 760px) {
+  .caseStudyGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .projectCaseStudy {
+    gap: 48px;
+  }
+}
