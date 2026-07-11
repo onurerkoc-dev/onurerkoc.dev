@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar'
 import ProjectsSection from '../components/ProjectsSection'
 import Section from '../components/Section'
 import StackList from '../components/StackList'
+import ContactForm from '../components/ContactForm'
 
 function HomePage() {
     return (
@@ -41,13 +42,15 @@ function HomePage() {
                 <p className="sectionTag">04 / contact</p>
 
                 <h2>
-                    Open to backend, full-stack and infrastructure-focused internships.
+                    Open to backend, full-stack and infrastructure-focused opportunities.
                 </h2>
 
-                <p>
-                    The contact form will be connected to the Spring Boot backend later.
-                    For now, GitHub and LinkedIn links will be added here.
+                <p className="contactIntro">
+                    Send a message through the form. The request is processed by the
+                    Spring Boot backend.
                 </p>
+
+                <ContactForm />
             </section>
         </main>
     )

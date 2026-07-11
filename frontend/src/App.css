@@ -780,3 +780,95 @@ a {
   margin-top: 32px;
   align-self: flex-start;
 }
+.contactIntro {
+  max-width: 680px;
+  margin-top: 20px;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.contactForm {
+  display: grid;
+  gap: 24px;
+  max-width: 760px;
+  margin-top: 40px;
+}
+
+.contactField {
+  display: grid;
+  gap: 10px;
+}
+
+.contactField label {
+  color: var(--text);
+  font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.contactField input,
+.contactField textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 15px 16px;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  font: inherit;
+  outline: none;
+  transition: border-color 160ms ease;
+}
+
+.contactField textarea {
+  resize: vertical;
+}
+
+.contactField input:focus,
+.contactField textarea:focus {
+  border-color: var(--accent);
+}
+
+.contactField input::placeholder,
+.contactField textarea::placeholder {
+  color: var(--faint);
+}
+
+.contactSubmitButton {
+  justify-self: start;
+  padding: 13px 18px;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+.contactSubmitButton:hover:not(:disabled) {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.contactSubmitButton:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.contactFeedback {
+  margin: 0;
+  font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
+  font-size: 13px;
+}
+
+.contactFeedback.success {
+  color: var(--text);
+}
+
+.contactFeedback.error {
+  color: var(--accent);
+}
