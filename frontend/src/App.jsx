@@ -2,6 +2,8 @@ import { Route, Routes } from 'react-router'
 import './App.css'
 import HomePage from './pages/HomePage'
 import ProjectDetailPage from './pages/ProjectDetailPage'
+import NotFoundPage from './pages/NotFoundPage'
+
 
 function App() {
     return (
@@ -12,6 +14,8 @@ function App() {
                 path="/projects/:slug"
                 element={<ProjectDetailPage />}
             />
+
+            <Route path="*" element={<NotFoundPage />} />
         </Routes>
     )
 }
