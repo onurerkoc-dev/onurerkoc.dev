@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
 
 @RestController
 public class ContactController {
@@ -24,12 +25,14 @@ public class ContactController {
         if (!validRequest) {
             return ResponseEntity
                     .badRequest()
-                    .body("Name, valid email and message are required.");
+                    .body("Name, valid email and message are required and must be within allowed lengths.");
         }
 
         String responseMessage =
                 contactService.submitContact(request);
 
-        return ResponseEntity.ok(responseMessage);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(responseMessage);
     }
 }
