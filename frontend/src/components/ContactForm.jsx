@@ -40,12 +40,13 @@ function ContactForm() {
         <label htmlFor="contact-name">Name</label>
 
         <input
-          id="contact-name"
-          type="text"
-          value={name}
-          onChange={(event) => setName(event.target.value)}
-          placeholder="Your name"
-          required
+            id="contact-name"
+            type="text"
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+            placeholder="Your name"
+            maxLength={100}
+            required
         />
       </div>
 
@@ -53,12 +54,13 @@ function ContactForm() {
         <label htmlFor="contact-email">Email</label>
 
         <input
-          id="contact-email"
-          type="email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          placeholder="you@example.com"
-          required
+            id="contact-email"
+            type="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            placeholder="you@example.com"
+            maxLength={255}
+            required
         />
       </div>
 
@@ -66,13 +68,17 @@ function ContactForm() {
         <label htmlFor="contact-message">Message</label>
 
         <textarea
-          id="contact-message"
-          value={message}
-          onChange={(event) => setMessage(event.target.value)}
-          placeholder="Tell me about the opportunity or project."
-          rows="6"
-          required
+            id="contact-message"
+            value={message}
+            onChange={(event) => setMessage(event.target.value)}
+            placeholder="Tell me about the opportunity or project."
+            rows="6"
+            maxLength={2000}
+            required
         />
+        <p className="contactCharacterCount">
+          {message.length} / 2000
+        </p>
       </div>
 
       <button

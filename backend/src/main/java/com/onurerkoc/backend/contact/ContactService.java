@@ -4,17 +4,29 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ContactService {
-// validation için true false eklendi contact form suistimal edilip boş json formatından backende istek gönderilmesin diye güncellendi.
+
+    private final ContactMessageRepository contactMessageRepository;
+
+    public ContactService(
+            ContactMessageRepository contactMessageRepository
+    ) {
+        this.contactMessageRepository = contactMessageRepository;
+    }
+
     public boolean isContactRequestValid(ContactRequestDto request) {
         if (request == null) {
             return false;
         }
 
-        if (request.getName() == null || request.getName().isBlank()) {
+        if (request.getName() == null
+                || request.getName().isBlank()
+                || request.getName().trim().length() > 100) {
             return false;
         }
 
-        if (request.getEmail() == null || request.getEmail().isBlank()) {
+        if (request.getEmail() == null
+                || request.getEmail().isBlank()
+                || request.getEmail().trim().length() > 255) {
             return false;
         }
 
@@ -22,7 +34,9 @@ public class ContactService {
             return false;
         }
 
-        if (request.getMessage() == null || request.getMessage().isBlank()) {
+        if (request.getMessage() == null
+                || request.getMessage().isBlank()
+                || request.getMessage().trim().length() > 2000) {
             return false;
         }
 
@@ -31,6 +45,16 @@ public class ContactService {
 
     public String submitContact(ContactRequestDto request) {
         String cleanName = request.getName().trim();
+        String cleanEmail = request.getEmail().trim();
+        String cleanMessage = request.getMessage().trim();
+
+        ContactMessage contactMessage = new ContactMessage(
+                cleanName,
+                cleanEmail,
+                cleanMessage
+        );
+
+        contactMessageRepository.save(contactMessage);
 
         return "Message received from " + cleanName;
     }

@@ -2,7 +2,7 @@
 
 Personal full-stack build lab and engineering notebook of Onur Erkoç.
 
-`onurerkoc.dev` is not designed as a generic portfolio. It is an evolving engineering space where frontend development, backend systems, architectural decisions, deployment experiments, and real-world projects are documented together.
+`onurerkoc.dev` is not designed as a generic portfolio. It is an evolving engineering space where frontend development, backend systems, architectural decisions, database integration, deployment experiments, and real-world projects are documented together.
 
 ## About the Project
 
@@ -16,8 +16,9 @@ The project is being developed to practice and demonstrate:
 - Client-side routing
 - Frontend API architecture
 - Full-stack form handling
-- Git and GitHub pull request workflow
 - PostgreSQL persistence
+- Spring Data JPA and Hibernate
+- Git and GitHub pull request workflow
 - Docker-based deployment
 - Linux server management
 - Nginx reverse proxy configuration
@@ -37,11 +38,16 @@ The project is being developed to practice and demonstrate:
 
 - Java 21
 - Spring Boot
+- Spring Data JPA
+- Hibernate
 - REST API
+
+### Database
+
+- PostgreSQL
 
 ### Planned Infrastructure
 
-- PostgreSQL
 - Docker
 - Docker Compose
 - Nginx
@@ -56,15 +62,40 @@ React Frontend
   -> Vite Development Proxy
   -> Spring Boot REST Controller
   -> Service Layer
-  -> DTO
-  -> In-memory Data
+  -> Repository Layer
+  -> JPA / Hibernate
+  -> PostgreSQL
+```
+
+The application currently contains two different data flows.
+
+### Project Data
+
+```text
+ProjectController
+  -> ProjectService
+  -> ProjectDto
+  -> In-memory Project Data
 ```
 
 Project data is currently stored in memory inside `ProjectService`.
 
-Contact form requests are currently validated and processed by the backend, but they are not yet stored permanently.
+### Contact Message Data
 
-A future iteration will replace the in-memory data with PostgreSQL persistence.
+```text
+ContactForm
+  -> Frontend API Layer
+  -> POST /api/contact
+  -> ContactController
+  -> ContactService
+  -> ContactMessageRepository
+  -> JPA / Hibernate
+  -> PostgreSQL
+```
+
+Contact messages are validated by the backend and stored permanently in PostgreSQL.
+
+A future iteration will migrate project data from in-memory storage to PostgreSQL.
 
 ## Project Structure
 
@@ -108,6 +139,8 @@ onurerkoc.dev/
 │   ├── src/main/java/com/onurerkoc/backend/
 │   │   ├── contact/
 │   │   │   ├── ContactController.java
+│   │   │   ├── ContactMessage.java
+│   │   │   ├── ContactMessageRepository.java
 │   │   │   ├── ContactRequestDto.java
 │   │   │   └── ContactService.java
 │   │   │
@@ -118,6 +151,9 @@ onurerkoc.dev/
 │   │       ├── ProjectController.java
 │   │       ├── ProjectDto.java
 │   │       └── ProjectService.java
+│   │
+│   ├── src/main/resources/
+│   │   └── application.properties
 │   │
 │   └── pom.xml
 │
@@ -136,13 +172,50 @@ Make sure the following tools are installed:
 - Node.js
 - npm
 - Git
+- PostgreSQL
 
-### 1. Start the Backend
+## Database Setup
+
+Create a local PostgreSQL database:
+
+```sql
+CREATE DATABASE onurerkoc_dev;
+```
+
+The default local database configuration is:
+
+```text
+Host:     localhost
+Port:     5432
+Database: onurerkoc_dev
+Username: postgres
+```
+
+The database password is not stored inside the repository.
+
+Set it as an environment variable in the PowerShell session that will run the backend:
+
+```powershell
+$env:DB_PASSWORD = "your-postgresql-password"
+```
+
+Optional database environment variables:
+
+```powershell
+$env:DB_URL = "jdbc:postgresql://localhost:5432/onurerkoc_dev"
+$env:DB_USERNAME = "postgres"
+$env:DB_PASSWORD = "your-postgresql-password"
+```
+
+Do not commit real database credentials to Git.
+
+## Start the Backend
 
 Open PowerShell in the project root:
 
 ```powershell
 cd backend
+$env:DB_PASSWORD = "your-postgresql-password"
 .\mvnw.cmd spring-boot:run
 ```
 
@@ -158,7 +231,7 @@ The backend runs on:
 http://localhost:8080
 ```
 
-### 2. Start the Frontend
+## Start the Frontend
 
 Open a second PowerShell window in the project root:
 
@@ -174,7 +247,7 @@ The frontend runs on:
 http://localhost:5173
 ```
 
-### 3. Create a Production Build
+## Create a Production Build
 
 From the `frontend` directory:
 
@@ -187,6 +260,17 @@ The generated production files are written to:
 ```text
 frontend/dist
 ```
+
+## Backend Build and Test Check
+
+From the `backend` directory:
+
+```powershell
+$env:DB_PASSWORD = "your-postgresql-password"
+.\mvnw.cmd test
+```
+
+The application context requires a working PostgreSQL connection because the backend uses Spring Data JPA.
 
 ## API Endpoints
 
@@ -234,26 +318,38 @@ When a project cannot be found, the backend returns:
 POST /api/contact
 ```
 
-Accepts contact form data from the React frontend.
+Accepts contact form data from the React frontend, validates it, and stores it in PostgreSQL.
 
 Example request body:
 
 ```json
 {
-  "name": "Onur",
+  "name": "Onur Erkoç",
   "email": "onur@example.com",
   "message": "Hello from the contact form."
 }
 ```
 
+Example success response body:
+
+```text
+Message received from Onur Erkoç
+```
+
 Response behavior:
 
 ```text
-200 OK          -> Valid contact request
-400 Bad Request -> Missing or invalid form data
+201 Created     -> Contact message was validated and stored
+400 Bad Request -> Missing, invalid, or oversized form data
 ```
 
-Contact messages are currently processed in memory and are not yet stored in a database.
+Current field limits:
+
+```text
+name    -> 100 characters
+email   -> 255 characters
+message -> 2000 characters
+```
 
 ## Frontend API Layer
 
@@ -342,7 +438,7 @@ WorkCard
   -> Spring Boot Backend
 ```
 
-An unknown route is handled by `NotFoundPage`.
+An unknown general route is handled by `NotFoundPage`.
 
 An unknown project slug is handled inside `ProjectDetailPage` after the backend returns `404 Not Found`.
 
@@ -397,7 +493,7 @@ ProjectService
 
 ## Full-Stack Contact Form
 
-The contact form connects the React frontend to the Spring Boot backend.
+The contact form connects the React frontend to the Spring Boot backend and PostgreSQL database.
 
 ### Contact Request Flow
 
@@ -407,17 +503,22 @@ ContactForm
   -> POST /api/contact
   -> ContactController
   -> ContactService
-  -> Validation
-  -> HTTP Response
+  -> ContactMessage
+  -> ContactMessageRepository
+  -> JPA / Hibernate
+  -> PostgreSQL
+  -> 201 Created
 ```
 
 The React form includes:
 
 - Controlled input fields
+- Required field checks
+- Maximum input lengths
+- Message character counter
 - Submit loading state
 - Success feedback
 - Error feedback
-- Required field checks
 
 The Spring Boot backend includes:
 
@@ -425,17 +526,64 @@ The Spring Boot backend includes:
 - Name validation
 - Basic email validation
 - Message validation
-- `200 OK` success response
+- Maximum field-length validation
+- Input trimming
+- JPA entity mapping
+- Spring Data repository persistence
+- Automatic creation timestamps
+- `201 Created` success response
 - `400 Bad Request` validation response
 
-The current version does not yet:
+The PostgreSQL table stores:
 
-- Store messages permanently
-- Send email notifications
-- Include spam protection
-- Include rate limiting
+```text
+id
+name
+email
+message
+created_at
+```
+
+The current version does not yet include:
+
+- Email notifications
+- Spam protection
+- Rate limiting
+- Contact message administration interface
 
 These improvements are planned for later iterations.
+
+## Database Persistence
+
+Contact messages are represented by the `ContactMessage` JPA entity.
+
+```text
+ContactMessage Java object
+  -> Hibernate mapping
+  -> contact_messages PostgreSQL table
+```
+
+`ContactMessageRepository` extends Spring Data JPA's `JpaRepository`.
+
+This provides database operations such as:
+
+```text
+save
+findById
+findAll
+deleteById
+count
+```
+
+The current contact flow uses `save` to create a new database record.
+
+Hibernate currently manages schema updates through:
+
+```properties
+spring.jpa.hibernate.ddl-auto=update
+```
+
+A future production iteration can replace automatic schema updates with versioned database migrations.
 
 ## Environment Variables
 
@@ -445,7 +593,7 @@ Frontend environment variables are documented in:
 frontend/.env.example
 ```
 
-Current configuration:
+Current frontend configuration:
 
 ```env
 VITE_API_BASE_URL=/api
@@ -455,6 +603,14 @@ The shared API client reads this value through Vite:
 
 ```js
 import.meta.env.VITE_API_BASE_URL
+```
+
+Backend database configuration supports:
+
+```text
+DB_URL
+DB_USERNAME
+DB_PASSWORD
 ```
 
 During local development, Vite proxies `/api` requests to the Spring Boot backend.
@@ -576,12 +732,20 @@ git branch -d feature/feature-name
 
 - React and Vite frontend
 - Java 21 and Spring Boot backend
+- PostgreSQL database integration
+- Spring Data JPA and Hibernate integration
 - Backend health endpoint
 - Project list endpoint
 - Slug-based project detail endpoint
 - Contact form API endpoint
 - Full-stack contact form
+- Persistent contact message storage
+- Contact message entity and repository layers
+- Automatic contact message timestamps
 - Basic backend contact validation
+- Maximum backend field-length validation
+- Synchronized frontend, backend, and database field limits
+- `201 Created` response for stored contact messages
 - Centralized frontend API layer
 - Vite development proxy
 - React Router integration
@@ -605,11 +769,11 @@ git branch -d feature/feature-name
 
 ### Next Main Phase
 
-- Introduce PostgreSQL
-- Replace in-memory project data
-- Store contact form messages permanently
-- Add entity and repository layers
-- Separate entity models from API DTOs
+- Replace in-memory project data with PostgreSQL
+- Create project entity and repository layers
+- Separate project entities from API DTOs
+- Seed the initial project records
+- Preserve project list and slug-based detail endpoints
 
 ### Infrastructure
 
@@ -629,7 +793,9 @@ git branch -d feature/feature-name
 - Add GitHub and live project links
 - Add email notifications for contact messages
 - Add spam protection and rate limiting
+- Add a contact message administration interface
 - Add an admin or content management workflow
+- Add versioned database migrations
 - Add dynamic SEO metadata
 - Add structured data
 - Add sitemap and robots files
