@@ -2,11 +2,11 @@
 
 Personal full-stack build lab and engineering notebook of Onur Erkoç.
 
-This project is not designed as a generic portfolio. It is an evolving engineering space where frontend development, backend systems, architectural decisions, deployment experiments, and real-world projects are documented together.
+`onurerkoc.dev` is not designed as a generic portfolio. It is an evolving engineering space where frontend development, backend systems, architectural decisions, deployment experiments, and real-world projects are documented together.
 
 ## About the Project
 
-The goal of `onurerkoc.dev` is to build a production-oriented personal platform step by step while documenting the engineering process behind it.
+The goal of this project is to build a production-oriented personal platform step by step while documenting the engineering process behind it.
 
 The project is being developed to practice and demonstrate:
 
@@ -15,6 +15,7 @@ The project is being developed to practice and demonstrate:
 - REST API design
 - Client-side routing
 - Frontend API architecture
+- Full-stack form handling
 - Git and GitHub pull request workflow
 - PostgreSQL persistence
 - Docker-based deployment
@@ -47,7 +48,7 @@ The project is being developed to practice and demonstrate:
 - DigitalOcean
 - HTTPS
 
-## System Architecture
+## Current Architecture
 
 ```text
 React Frontend
@@ -55,11 +56,13 @@ React Frontend
   -> Vite Development Proxy
   -> Spring Boot REST Controller
   -> Service Layer
-  -> ProjectDto
-  -> In-memory Project Data
+  -> DTO
+  -> In-memory Data
 ```
 
 Project data is currently stored in memory inside `ProjectService`.
+
+Contact form requests are currently validated and processed by the backend, but they are not yet stored permanently.
 
 A future iteration will replace the in-memory data with PostgreSQL persistence.
 
@@ -71,28 +74,51 @@ onurerkoc.dev/
 │   ├── src/
 │   │   ├── api/
 │   │   │   ├── client.js
+│   │   │   ├── contactApi.js
 │   │   │   ├── healthApi.js
 │   │   │   └── projectsApi.js
+│   │   │
 │   │   ├── components/
+│   │   │   ├── BackendStatus.jsx
+│   │   │   ├── ContactForm.jsx
+│   │   │   ├── Hero.jsx
+│   │   │   ├── Navbar.jsx
+│   │   │   ├── ProjectsSection.jsx
+│   │   │   ├── Section.jsx
+│   │   │   ├── StackList.jsx
+│   │   │   ├── TerminalCard.jsx
+│   │   │   └── WorkCard.jsx
+│   │   │
 │   │   ├── pages/
 │   │   │   ├── HomePage.jsx
+│   │   │   ├── NotFoundPage.jsx
 │   │   │   └── ProjectDetailPage.jsx
+│   │   │
 │   │   ├── App.jsx
 │   │   ├── App.css
 │   │   └── main.jsx
+│   │
 │   ├── .env.example
+│   ├── index.html
 │   ├── package.json
 │   ├── package-lock.json
 │   └── vite.config.js
 │
 ├── backend/
 │   ├── src/main/java/com/onurerkoc/backend/
+│   │   ├── contact/
+│   │   │   ├── ContactController.java
+│   │   │   ├── ContactRequestDto.java
+│   │   │   └── ContactService.java
+│   │   │
 │   │   ├── controller/
 │   │   │   └── HealthController.java
+│   │   │
 │   │   └── project/
 │   │       ├── ProjectController.java
 │   │       ├── ProjectDto.java
 │   │       └── ProjectService.java
+│   │
 │   └── pom.xml
 │
 └── README.md
@@ -202,6 +228,33 @@ When a project cannot be found, the backend returns:
 404 Not Found
 ```
 
+### Contact Form
+
+```http
+POST /api/contact
+```
+
+Accepts contact form data from the React frontend.
+
+Example request body:
+
+```json
+{
+  "name": "Onur",
+  "email": "onur@example.com",
+  "message": "Hello from the contact form."
+}
+```
+
+Response behavior:
+
+```text
+200 OK          -> Valid contact request
+400 Bad Request -> Missing or invalid form data
+```
+
+Contact messages are currently processed in memory and are not yet stored in a database.
+
 ## Frontend API Layer
 
 Frontend API calls are centralized under:
@@ -214,8 +267,9 @@ Current API files:
 
 ```text
 client.js       -> Shared API request helper
-healthApi.js    -> Backend health endpoint
-projectsApi.js  -> Project list and project detail endpoints
+contactApi.js   -> Contact form requests
+healthApi.js    -> Backend health request
+projectsApi.js  -> Project list and project detail requests
 ```
 
 React components should not call backend endpoints directly with:
@@ -230,6 +284,7 @@ Instead, components use dedicated API functions:
 getBackendHealth()
 getProjects()
 getProjectBySlug(slug)
+submitContactForm(contactData)
 ```
 
 This keeps React components focused on:
@@ -237,6 +292,7 @@ This keeps React components focused on:
 - User interface rendering
 - State management
 - Loading states
+- Success states
 - Error states
 - User interaction
 
@@ -261,6 +317,7 @@ The frontend uses React Router for client-side navigation.
 ```text
 /                       -> Home page
 /projects/:slug         -> Project detail page
+*                       -> Not found page
 ```
 
 ### Example Project Routes
@@ -284,6 +341,10 @@ WorkCard
   -> GET /api/projects/{slug}
   -> Spring Boot Backend
 ```
+
+An unknown route is handled by `NotFoundPage`.
+
+An unknown project slug is handled inside `ProjectDetailPage` after the backend returns `404 Not Found`.
 
 ## Project Case Studies
 
@@ -334,6 +395,48 @@ ProjectService
   -> Engineering Case Study UI
 ```
 
+## Full-Stack Contact Form
+
+The contact form connects the React frontend to the Spring Boot backend.
+
+### Contact Request Flow
+
+```text
+ContactForm
+  -> submitContactForm
+  -> POST /api/contact
+  -> ContactController
+  -> ContactService
+  -> Validation
+  -> HTTP Response
+```
+
+The React form includes:
+
+- Controlled input fields
+- Submit loading state
+- Success feedback
+- Error feedback
+- Required field checks
+
+The Spring Boot backend includes:
+
+- Request body conversion
+- Name validation
+- Basic email validation
+- Message validation
+- `200 OK` success response
+- `400 Bad Request` validation response
+
+The current version does not yet:
+
+- Store messages permanently
+- Send email notifications
+- Include spam protection
+- Include rate limiting
+
+These improvements are planned for later iterations.
+
 ## Environment Variables
 
 Frontend environment variables are documented in:
@@ -373,6 +476,44 @@ is forwarded to:
 http://localhost:8080/api/projects
 ```
 
+A contact request to:
+
+```text
+/api/contact
+```
+
+is forwarded to:
+
+```text
+http://localhost:8080/api/contact
+```
+
+## Basic SEO Foundation
+
+The frontend currently includes basic metadata inside `frontend/index.html`.
+
+Implemented metadata:
+
+- Page title
+- Meta description
+- Author
+- Robots directive
+- Canonical URL
+- Open Graph title and description
+- Basic Twitter card metadata
+
+Advanced SEO work will be completed after deployment.
+
+Planned SEO improvements include:
+
+- Dynamic page metadata
+- Project-specific titles and descriptions
+- Structured data
+- `robots.txt`
+- `sitemap.xml`
+- Google Search Console integration
+- Social profile connections
+
 ## Git Workflow
 
 This project uses a feature branch and pull request workflow:
@@ -396,13 +537,14 @@ git pull origin main
 git checkout -b feature/feature-name
 ```
 
-### Commit the Changes
+### Review and Commit Changes
 
 ```powershell
 git status
 git diff
 git add .
 git status
+git diff --staged
 git commit -m "Describe the completed feature"
 ```
 
@@ -422,6 +564,12 @@ git pull origin main
 git status
 ```
 
+After the feature branch is merged, the local branch can be deleted:
+
+```powershell
+git branch -d feature/feature-name
+```
+
 ## Current Status
 
 ### Implemented
@@ -431,14 +579,19 @@ git status
 - Backend health endpoint
 - Project list endpoint
 - Slug-based project detail endpoint
+- Contact form API endpoint
+- Full-stack contact form
+- Basic backend contact validation
 - Centralized frontend API layer
 - Vite development proxy
 - React Router integration
 - Dynamic project detail pages
+- General frontend 404 page
 - Loading, success, and error states
 - Backend-driven project data model
 - Engineering case study sections
 - Responsive project detail interface
+- Basic SEO metadata
 - Git feature branch and pull request workflow
 - Local development documentation
 
@@ -450,18 +603,34 @@ git status
 
 ## Roadmap
 
-Planned improvements:
+### Next Main Phase
 
-- Replace in-memory project data with PostgreSQL
+- Introduce PostgreSQL
+- Replace in-memory project data
+- Store contact form messages permanently
 - Add entity and repository layers
-- Add automated backend tests
-- Add frontend error page routing
-- Add project changelog and timeline sections
-- Add GitHub and live project links
-- Add an admin/content management workflow
-- Create backend and frontend Dockerfiles
+- Separate entity models from API DTOs
+
+### Infrastructure
+
+- Create backend Dockerfile
+- Create frontend Dockerfile
 - Add Docker Compose configuration
+- Add PostgreSQL container
 - Configure Nginx as a reverse proxy
 - Deploy the platform to DigitalOcean
 - Connect the `onurerkoc.dev` domain
 - Enable HTTPS
+
+### Future Improvements
+
+- Add automated backend tests
+- Add project changelog and timeline sections
+- Add GitHub and live project links
+- Add email notifications for contact messages
+- Add spam protection and rate limiting
+- Add an admin or content management workflow
+- Add dynamic SEO metadata
+- Add structured data
+- Add sitemap and robots files
+- Connect the site to Google Search Console
