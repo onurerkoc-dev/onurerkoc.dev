@@ -1,5 +1,7 @@
 package com.onurerkoc.backend.project;
 
+import java.util.List;
+
 public class ProjectMapper {
 
     private ProjectMapper() {
@@ -13,7 +15,7 @@ public class ProjectMapper {
                 entity.getType(),
                 entity.getSummary(),
                 entity.getDescription(),
-                entity.getTechStack(),
+                List.copyOf(entity.getTechStack()),
                 entity.getStatus(),
                 entity.getGithubUrl(),
                 entity.getLiveUrl(),
@@ -21,8 +23,8 @@ public class ProjectMapper {
                 entity.getProblem(),
                 entity.getGoal(),
                 entity.getArchitecture(),
-                entity.getKeyDecisions(),
-                entity.getNextSteps(),
+                List.copyOf(entity.getKeyDecisions()),
+                List.copyOf(entity.getNextSteps()),
                 entity.getUpdatedAt().toString()
         );
     }
