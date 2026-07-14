@@ -1,36 +1,73 @@
 # onurerkoc.dev
 
-Personal full-stack build lab and engineering notebook of **Onur Erkoç**.
+**Personal full-stack engineering platform and build journal of Onur Erkoç.**
 
-**Live website:** [https://onurerkoc.dev](https://onurerkoc.dev)
+- Live website: [https://onurerkoc.dev](https://onurerkoc.dev)
+- GitHub: [onurerkoc-dev](https://github.com/onurerkoc-dev)
 
-`onurerkoc.dev` is a production-deployed full-stack platform built to document real engineering work instead of presenting only finished portfolio cards.
+This README is available in two languages:
 
-The project combines frontend development, backend architecture, database persistence, Docker-based delivery, Linux server administration, production networking, and ongoing project documentation in one evolving system.
+- [English](#english)
+- [Türkçe](#türkçe)
 
 ---
 
-## Project Goals
+# English
 
-This project is built to practice and demonstrate:
+## Overview
 
-- React and Vite frontend development
-- Java 21 and Spring Boot backend development
+`onurerkoc.dev` is not a generic portfolio template.
+
+It is a production-deployed engineering platform where I build, test, document, and improve real full-stack systems step by step.
+
+The project brings together:
+
+- Frontend development
+- Backend architecture
 - REST API design
-- React Router and client-side routing
-- Centralized frontend API communication
-- Controller, service, repository, entity, mapper, and DTO separation
 - PostgreSQL persistence
-- Spring Data JPA and Hibernate
-- Full-stack form handling
-- Email notifications with Gmail SMTP
-- Docker and Docker Compose
+- Docker-based delivery
 - Linux server administration
-- Nginx reverse proxy configuration
-- Cloudflare DNS and proxy configuration
-- HTTPS with Let's Encrypt and Certbot
+- Reverse proxy configuration
+- Cloudflare and HTTPS
+- Contact email notifications
+- Technical SEO
 - Git feature branches and pull requests
-- Production deployment on DigitalOcean
+
+The main goal is not only to show final results, but also to document the engineering decisions and infrastructure behind them.
+
+---
+
+## Current Status
+
+The application is live in production:
+
+```text
+https://onurerkoc.dev
+```
+
+Completed areas:
+
+- React and Vite frontend
+- Java 21 and Spring Boot backend
+- PostgreSQL persistence
+- Project list and detail APIs
+- Backend-driven project case studies
+- Contact form persistence
+- Gmail SMTP contact notifications
+- Docker images for frontend and backend
+- Docker Compose orchestration
+- Persistent PostgreSQL volume
+- DigitalOcean deployment
+- Host Nginx reverse proxy
+- Cloudflare DNS and proxy
+- HTTPS with Let's Encrypt and Certbot
+- UFW firewall
+- Route-aware SEO metadata
+- `robots.txt`
+- `sitemap.xml`
+- JSON-LD structured data
+- Git feature branch and pull request workflow
 
 ---
 
@@ -53,8 +90,8 @@ This project is built to practice and demonstrate:
 - Spring Data JPA
 - Hibernate
 - Spring Boot Mail
-- REST API
 - Maven
+- REST API
 
 ### Database
 
@@ -66,11 +103,11 @@ This project is built to practice and demonstrate:
 - Docker Compose
 - Ubuntu 24.04 LTS
 - DigitalOcean
-- Host Nginx reverse proxy
+- Host Nginx
 - Cloudflare
 - Let's Encrypt
 - Certbot
-- UFW firewall
+- UFW
 
 ---
 
@@ -86,7 +123,7 @@ User
   -> PostgreSQL container
 ```
 
-The application runs as three Docker Compose services:
+Docker Compose runs three services:
 
 ```text
 frontend
@@ -104,24 +141,24 @@ Internet
   -> Frontend container
 ```
 
-The frontend container forwards API requests through the internal Docker Compose network:
+The frontend container forwards API requests through the Docker network:
 
 ```text
-Browser request
+Browser
   -> /api
   -> Frontend Nginx
   -> backend:8080
   -> Spring Boot
 ```
 
-The frontend and backend ports are bound only to localhost:
+Container ports are bound only to localhost:
 
 ```text
 Frontend: 127.0.0.1:3000
 Backend:  127.0.0.1:8080
 ```
 
-PostgreSQL is not exposed to the public internet. It is available only inside the Docker Compose network.
+PostgreSQL is not exposed to the public internet.
 
 ---
 
@@ -131,41 +168,56 @@ PostgreSQL is not exposed to the public internet. It is available only inside th
 
 - Project list loaded from PostgreSQL
 - Slug-based project detail pages
+- Backend-driven project content
 - Engineering case study sections
-- Technology lists
+- Project technology lists
 - Architecture decisions
 - Project roadmaps
-- Backend-driven project content
 - Loading, error, and not-found states
 
 ### Contact System
 
 - Controlled React contact form
 - Backend validation
-- Field-length limits
 - Input trimming
+- Maximum field lengths
 - PostgreSQL persistence
 - Automatic creation timestamps
-- Gmail SMTP notifications
-- Reply-To support using the visitor's email address
-- Database persistence even if mail delivery fails
+- Gmail SMTP notification emails
+- Reply-To support using the sender's address
+- Database persistence even if email delivery fails
+
+### SEO Foundation
+
+- Route-specific page titles
+- Route-specific meta descriptions
+- Dynamic canonical URLs
+- Open Graph metadata
+- Twitter card metadata
+- `robots.txt`
+- `sitemap.xml`
+- `Person` structured data
+- `WebSite` structured data
+- Project-specific `SoftwareSourceCode` structured data
+- `noindex, nofollow` for not-found routes
 
 ### Production Delivery
 
-- Separate frontend and backend images
-- PostgreSQL container with persistent volume
+- Multi-stage backend Docker image
+- Multi-stage frontend Docker image
+- Nginx frontend container
+- Docker Compose service network
 - PostgreSQL health check
-- Docker Compose service orchestration
+- Persistent PostgreSQL volume
+- DigitalOcean deployment
 - Host Nginx reverse proxy
-- Cloudflare DNS and proxy
-- HTTPS with Let's Encrypt
-- Automatic certificate renewal
-- UFW firewall rules
-- Live production domain
+- Cloudflare proxy
+- HTTPS certificate renewal
+- UFW firewall
 
 ---
 
-## Application Data Flows
+## Data Flows
 
 ### Project Data
 
@@ -181,7 +233,7 @@ PostgreSQL
   -> React frontend
 ```
 
-### Contact Messages
+### Contact Message
 
 ```text
 React ContactForm
@@ -196,9 +248,9 @@ React ContactForm
   -> Notification email
 ```
 
-The message is saved before the email notification is attempted.
+The database save happens before the notification attempt.
 
-If SMTP delivery fails, the database record remains available and the failure is written to the backend logs.
+If SMTP delivery fails, the message remains stored in PostgreSQL.
 
 ---
 
@@ -239,6 +291,10 @@ onurerkoc.dev/
 │   └── pom.xml
 │
 ├── frontend/
+│   ├── public/
+│   │   ├── robots.txt
+│   │   └── sitemap.xml
+│   │
 │   ├── src/
 │   │   ├── api/
 │   │   │   ├── client.js
@@ -247,6 +303,7 @@ onurerkoc.dev/
 │   │   │   └── projectsApi.js
 │   │   │
 │   │   ├── components/
+│   │   │   └── Seo.jsx
 │   │   ├── pages/
 │   │   ├── App.jsx
 │   │   ├── App.css
@@ -276,7 +333,7 @@ onurerkoc.dev/
 
 ## Local Development
 
-### Prerequisites
+### Requirements
 
 - Java 21
 - Node.js
@@ -284,15 +341,13 @@ onurerkoc.dev/
 - Git
 - PostgreSQL
 
-### Database Setup
-
-Create the local database:
+### Create the Database
 
 ```sql
 CREATE DATABASE onurerkoc_dev;
 ```
 
-Default local database settings:
+Default settings:
 
 ```text
 Host:     localhost
@@ -301,13 +356,13 @@ Database: onurerkoc_dev
 Username: postgres
 ```
 
-Set the database password in the PowerShell session that runs the backend:
+Set the password in PowerShell:
 
 ```powershell
 $env:DB_PASSWORD = "your-postgresql-password"
 ```
 
-Optional database variables:
+Optional variables:
 
 ```powershell
 $env:DB_URL = "jdbc:postgresql://localhost:5432/onurerkoc_dev"
@@ -315,17 +370,7 @@ $env:DB_USERNAME = "postgres"
 $env:DB_PASSWORD = "your-postgresql-password"
 ```
 
-Real credentials must never be committed.
-
-### Initial Project Data
-
-Initial project records are stored in:
-
-```text
-backend/database/project-data.sql
-```
-
-Run the script from the repository root:
+### Load Initial Project Data
 
 ```powershell
 & "C:\Program Files\PostgreSQL\18\bin\psql.exe" `
@@ -335,13 +380,13 @@ Run the script from the repository root:
   -f "backend\database\project-data.sql"
 ```
 
-The script recreates the current records for:
+The script recreates these project records:
 
 - `onurerkoc.dev`
 - `Portfolio API`
 - `Deployment Lab`
 
-It is safe to run again. It resets only these project records and their related collection data. Contact messages are not deleted.
+It does not remove contact messages.
 
 ### Run the Backend
 
@@ -351,7 +396,7 @@ $env:DB_PASSWORD = "your-postgresql-password"
 .\mvnw.cmd spring-boot:run
 ```
 
-Backend address:
+Backend:
 
 ```text
 http://localhost:8080
@@ -359,29 +404,23 @@ http://localhost:8080
 
 ### Run the Frontend
 
-Open another PowerShell window:
-
 ```powershell
 cd frontend
 npm install
 npm run dev
 ```
 
-Frontend address:
+Frontend:
 
 ```text
 http://localhost:5173
 ```
 
-Vite forwards `/api` requests to the Spring Boot backend during development.
+Vite forwards `/api` requests to the Spring Boot backend.
 
 ---
 
 ## Docker Compose
-
-The full stack can run locally with Docker Compose.
-
-### Environment File
 
 Create a real `.env` file in the repository root:
 
@@ -394,14 +433,19 @@ MAIL_PASSWORD=your-google-app-password
 CONTACT_NOTIFICATION_TO=your-notification-address@gmail.com
 ```
 
-`MAIL_PASSWORD` must be a Google App Password, not the normal Google account password.
+Use a Google App Password for `MAIL_PASSWORD`.
 
 The real `.env` file is ignored by Git.
 
-### Start the Application
+### Validate Configuration
 
 ```powershell
 docker compose config
+```
+
+### Start the Full Stack
+
+```powershell
 docker compose up --build -d
 ```
 
@@ -423,7 +467,7 @@ docker compose logs --tail=200 backend
 docker compose down
 ```
 
-### Delete Containers and PostgreSQL Data
+### Delete the PostgreSQL Volume
 
 ```powershell
 docker compose down -v
@@ -461,12 +505,12 @@ docker compose exec database psql `
 
 | Variable | Purpose |
 |---|---|
-| `CONTACT_EMAIL_ENABLED` | Enables or disables mail notifications |
-| `MAIL_USERNAME` | Gmail account used to send notifications |
+| `CONTACT_EMAIL_ENABLED` | Enables or disables notifications |
+| `MAIL_USERNAME` | Gmail sender account |
 | `MAIL_PASSWORD` | Google App Password |
-| `CONTACT_NOTIFICATION_TO` | Address that receives contact notifications |
+| `CONTACT_NOTIFICATION_TO` | Notification recipient |
 
-The repository contains only placeholder values in `.env.example`.
+Real values must not be committed.
 
 ---
 
@@ -478,15 +522,11 @@ The repository contains only placeholder values in `.env.example`.
 GET /api/health
 ```
 
-Returns the backend status.
-
 ### Project List
 
 ```http
 GET /api/projects
 ```
-
-Returns all projects stored in PostgreSQL.
 
 ### Project Detail
 
@@ -502,7 +542,7 @@ GET /api/projects/portfolio-api
 GET /api/projects/deployment-lab
 ```
 
-An unknown slug returns:
+Unknown project slugs return:
 
 ```text
 404 Not Found
@@ -514,7 +554,7 @@ An unknown slug returns:
 POST /api/contact
 ```
 
-Example request:
+Example:
 
 ```json
 {
@@ -524,14 +564,14 @@ Example request:
 }
 ```
 
-Response behavior:
+Responses:
 
 ```text
 201 Created     -> Message validated and stored
-400 Bad Request -> Invalid, missing, or oversized data
+400 Bad Request -> Invalid or oversized data
 ```
 
-Current field limits:
+Limits:
 
 ```text
 name    -> 100 characters
@@ -539,58 +579,7 @@ email   -> 255 characters
 message -> 2000 characters
 ```
 
-A successful request stores the message in PostgreSQL and attempts to send an email notification.
-
----
-
-## Frontend API Layer
-
-Frontend requests are centralized under:
-
-```text
-frontend/src/api
-```
-
-Current modules:
-
-```text
-client.js       -> Shared request helper
-contactApi.js   -> Contact form requests
-healthApi.js    -> Backend health request
-projectsApi.js  -> Project list and detail requests
-```
-
-React components use dedicated functions instead of containing direct request logic:
-
-```js
-getBackendHealth()
-getProjects()
-getProjectBySlug(slug)
-submitContactForm(contactData)
-```
-
-This keeps components focused on:
-
-- Rendering
-- Local state
-- Loading states
-- Success states
-- Error states
-- User interaction
-
----
-
-## Frontend Routing
-
-Current routes:
-
-```text
-/                       -> Home page
-/projects/:slug         -> Project detail page
-*                       -> Not found page
-```
-
-React Router fallback is configured in the frontend Nginx container, so direct page refreshes continue to work in production.
+A successful request stores the message and attempts to send a notification email.
 
 ---
 
@@ -598,25 +587,13 @@ React Router fallback is configured in the frontend Nginx container, so direct p
 
 ### Projects
 
-`ProjectEntity` represents the PostgreSQL model.
-
-`ProjectDto` represents the public API response.
-
-`ProjectMapper` converts the entity into the DTO:
-
-```text
-ProjectEntity
-  -> ProjectMapper
-  -> ProjectDto
-```
-
-Main project data is stored in:
+Main project data:
 
 ```text
 projects
 ```
 
-Collection fields are stored in:
+Collection tables:
 
 ```text
 project_tech_stack
@@ -624,35 +601,29 @@ project_key_decisions
 project_next_steps
 ```
 
-`item_order` preserves list order.
-
-### Read-Only Transactions
-
-Project read operations use:
+The project uses:
 
 ```java
 @Transactional(readOnly = true)
 ```
 
-Entity-to-DTO mapping is completed while the transaction is active.
-
-The project also uses:
+and:
 
 ```properties
 spring.jpa.open-in-view=false
 ```
 
-This prevents database access from leaking into the web layer.
+Entity-to-DTO mapping is completed inside the service transaction.
 
 ### Contact Messages
 
-Contact messages are stored in:
+Stored in:
 
 ```text
 contact_messages
 ```
 
-Stored fields:
+Fields:
 
 ```text
 id
@@ -662,30 +633,17 @@ message
 created_at
 ```
 
-The backend validates and trims input before saving the entity.
-
 ---
 
 ## Production Deployment
 
-The application is live at:
+Live application:
 
 ```text
 https://onurerkoc.dev
 ```
 
-Production components:
-
-- DigitalOcean Ubuntu server
-- Docker Compose
-- PostgreSQL persistent volume
-- Host Nginx reverse proxy
-- Cloudflare DNS and proxy
-- Let's Encrypt SSL certificate
-- Certbot certificate renewal
-- UFW firewall
-
-Detailed deployment instructions:
+Deployment documentation:
 
 ```text
 docs/production-deployment.md
@@ -697,22 +655,7 @@ Reusable host Nginx configuration:
 infrastructure/nginx/onurerkoc.dev.conf
 ```
 
-### Production Environment
-
-Production credentials are stored only in the server-local `.env` file:
-
-```env
-POSTGRES_PASSWORD=production-database-password
-
-CONTACT_EMAIL_ENABLED=true
-MAIL_USERNAME=production-gmail-address@gmail.com
-MAIL_PASSWORD=production-google-app-password
-CONTACT_NOTIFICATION_TO=notification-address@gmail.com
-```
-
-Real secrets must never be committed.
-
-### Production Update Flow
+### Production Update
 
 Run on the DigitalOcean server:
 
@@ -724,22 +667,16 @@ docker compose up --build -d
 docker compose ps
 ```
 
-### Production Verification
+### Verification
 
 ```bash
 curl https://onurerkoc.dev/api/health
 curl https://onurerkoc.dev/api/projects
+curl -I https://onurerkoc.dev/robots.txt
+curl -I https://onurerkoc.dev/sitemap.xml
 ```
 
-Check backend logs:
-
-```bash
-docker compose logs --tail=200 backend
-```
-
-### Firewall
-
-Public ports:
+### Public Ports
 
 ```text
 22  -> SSH
@@ -747,9 +684,15 @@ Public ports:
 443 -> HTTPS
 ```
 
-Ports `3000`, `8080`, and `5432` are not publicly exposed.
+Not publicly exposed:
 
-### HTTPS Renewal Test
+```text
+3000
+8080
+5432
+```
+
+### Certificate Renewal Test
 
 ```bash
 sudo certbot renew --dry-run
@@ -757,35 +700,7 @@ sudo certbot renew --dry-run
 
 ---
 
-## SEO Status
-
-The current frontend includes a basic SEO foundation:
-
-- Page title
-- Meta description
-- Author metadata
-- Robots directive
-- Canonical URL
-- Open Graph title and description
-- Basic Twitter card metadata
-
-Planned SEO v2 work:
-
-- Route-specific titles and descriptions
-- Project-specific canonical URLs
-- `robots.txt`
-- `sitemap.xml`
-- Structured data
-- Improved Open Graph metadata
-- Preferred `www` redirect
-- Google Search Console
-- Production sitemap submission
-
----
-
 ## Git Workflow
-
-The project uses feature branches and pull requests:
 
 ```text
 main
@@ -798,7 +713,7 @@ main
   -> update local main
 ```
 
-### Start a Feature
+Create a feature branch:
 
 ```powershell
 git switch main
@@ -806,7 +721,7 @@ git pull origin main
 git switch -c feature/feature-name
 ```
 
-### Review and Commit
+Review and commit:
 
 ```powershell
 git status
@@ -816,13 +731,13 @@ git diff --staged
 git commit -m "Describe the completed feature"
 ```
 
-### Push
+Push:
 
 ```powershell
 git push -u origin feature/feature-name
 ```
 
-### After Merge
+After merge:
 
 ```powershell
 git switch main
@@ -832,118 +747,839 @@ git branch -d feature/feature-name
 
 ---
 
-## Current Status
+## Security Notes
 
-### Completed
-
-- React and Vite frontend
-- Java 21 and Spring Boot backend
-- Centralized frontend API layer
-- React Router integration
-- Project list and detail pages
-- Engineering case study sections
-- Backend health endpoint
-- Contact form API
-- PostgreSQL contact persistence
-- Gmail SMTP contact notifications
-- Reply-To support for contact senders
-- PostgreSQL project persistence
-- Spring Data JPA and Hibernate
-- Entity, repository, mapper, DTO, service, and controller separation
-- Read-only service transactions
-- Re-runnable project seed script
-- Backend Docker image
-- Frontend production Docker image
-- Frontend Nginx configuration
-- Docker Compose environment
-- PostgreSQL health check
-- Persistent PostgreSQL volume
-- DigitalOcean production deployment
-- Host Nginx reverse proxy
-- Cloudflare DNS and proxy
-- HTTPS with Let's Encrypt and Certbot
-- UFW firewall
-- Live production domain
-- Basic SEO metadata
-- Feature branch and pull request workflow
-
-### Current Project Modules
-
-- `onurerkoc.dev`
-- `Portfolio API`
-- `Deployment Lab`
+- Real `.env` files are ignored by Git.
+- Database passwords are never committed.
+- Gmail uses a Google App Password.
+- PostgreSQL is not publicly exposed.
+- Frontend and backend ports are bound to localhost.
+- Only SSH, HTTP, and HTTPS are public.
+- Cloudflare proxies public traffic.
+- Contact messages remain stored if email delivery fails.
 
 ---
 
 ## Roadmap
 
-### Site Structure and Design v2
+### Site Design v2
 
-- Review the information architecture
-- Finalize the main navigation
-- Refine the visual system
-- Simplify reusable frontend components
-- Improve home page sections
-- Improve project list and detail experiences
+- Improve the information architecture
+- Refine navigation
+- Improve reusable components
+- Redesign project list and detail experiences
+- Improve mobile presentation
 
 ### Turkish and English Support
 
 - Define a locale strategy
 - Add Turkish and English interface content
-- Decide the multilingual route structure
+- Decide multilingual route structure
 - Translate validation and status messages
-- Keep language logic outside presentation components
+- Add multilingual SEO rules
 
-### Project Model and API v2
+### Project API v2
 
-- Redesign the project content model
-- Separate localized content from shared technical data
+- Review the project content model
+- Separate localized and shared fields
 - Review the PostgreSQL schema
-- Create Project API v2
 - Update entity, DTO, mapper, service, and repository responsibilities
 - Rebuild project pages around the new model
 
-### SEO v2
-
-- Add route-specific metadata
-- Add project-specific canonical URLs
-- Add `robots.txt`
-- Add `sitemap.xml`
-- Add structured data
-- Improve social sharing metadata
-- Configure preferred domain redirects
-- Connect Google Search Console
-- Submit the production sitemap
-
 ### Reliability and Security
 
-- Add spam protection
-- Add contact endpoint rate limiting
-- Add automated backend tests
-- Add frontend tests for critical flows
+- Add contact spam protection
+- Add endpoint rate limiting
+- Add backend tests
+- Add frontend critical-flow tests
 - Add versioned database migrations
 - Add deployment automation after the manual workflow is fully understood
 
 ### Future Administration
 
-- Add project creation and update endpoints
-- Add an administration workflow
+- Add project create and update endpoints
+- Add an administration interface
 - Add contact message administration
 
 ---
 
-## Security Notes
+# Türkçe
 
-- Real `.env` files are ignored by Git.
-- Database passwords are never committed.
-- Gmail credentials use a Google App Password.
-- PostgreSQL is not exposed publicly.
-- Frontend and backend container ports are bound to localhost.
-- Only SSH, HTTP, and HTTPS are allowed through the firewall.
-- Cloudflare proxies public traffic before it reaches the server.
+## Genel Bakış
+
+`onurerkoc.dev` sıradan bir portfolyo şablonu değildir.
+
+Gerçek full-stack sistemleri adım adım geliştirdiğim, test ettiğim, production ortamına taşıdığım ve mühendislik kararlarını belgelediğim canlı bir yazılım platformudur.
+
+Proje şu alanları tek sistemde bir araya getirir:
+
+- Frontend geliştirme
+- Backend mimarisi
+- REST API tasarımı
+- PostgreSQL veri kalıcılığı
+- Docker tabanlı dağıtım
+- Linux sunucu yönetimi
+- Reverse proxy yapılandırması
+- Cloudflare ve HTTPS
+- İletişim formu e-posta bildirimleri
+- Teknik SEO
+- Git feature branch ve pull request akışı
+
+Amaç yalnızca bitmiş ekranları göstermek değil, bu ekranların arkasındaki yazılım ve altyapı sürecini de ortaya koymaktır.
 
 ---
 
-## Live Website
+## Güncel Durum
+
+Uygulama production ortamında canlıdır:
+
+```text
+https://onurerkoc.dev
+```
+
+Tamamlanan ana alanlar:
+
+- React ve Vite frontend
+- Java 21 ve Spring Boot backend
+- PostgreSQL veri kalıcılığı
+- Proje liste ve detay API'leri
+- Backend tarafından beslenen proje vaka analizleri
+- İletişim formu veri kaydı
+- Gmail SMTP e-posta bildirimleri
+- Frontend ve backend Docker imajları
+- Docker Compose servis yönetimi
+- Kalıcı PostgreSQL volume
+- DigitalOcean deployment
+- Host Nginx reverse proxy
+- Cloudflare DNS ve proxy
+- Let's Encrypt ve Certbot ile HTTPS
+- UFW firewall
+- Route bazlı SEO metadata
+- `robots.txt`
+- `sitemap.xml`
+- JSON-LD structured data
+- Git feature branch ve pull request düzeni
+
+---
+
+## Teknoloji Yığını
+
+### Frontend
+
+- React
+- Vite
+- JavaScript
+- React Router
+- CSS
+- Production Nginx container
+
+### Backend
+
+- Java 21
+- Spring Boot
+- Spring Web MVC
+- Spring Data JPA
+- Hibernate
+- Spring Boot Mail
+- Maven
+- REST API
+
+### Veritabanı
+
+- PostgreSQL 18
+
+### Altyapı
+
+- Docker
+- Docker Compose
+- Ubuntu 24.04 LTS
+- DigitalOcean
+- Host Nginx
+- Cloudflare
+- Let's Encrypt
+- Certbot
+- UFW
+
+---
+
+## Production Mimarisi
+
+```text
+Kullanıcı
+  -> Cloudflare DNS ve proxy
+  -> DigitalOcean Ubuntu sunucu
+  -> Host Nginx reverse proxy
+  -> React frontend container
+  -> Spring Boot backend container
+  -> PostgreSQL container
+```
+
+Docker Compose üç servis çalıştırır:
+
+```text
+frontend
+backend
+database
+```
+
+Dış trafik host Nginx üzerinden sisteme girer:
+
+```text
+İnternet
+  -> 80 / 443 portları
+  -> Host Nginx
+  -> 127.0.0.1:3000
+  -> Frontend container
+```
+
+Frontend container API isteklerini Docker ağı üzerinden backend servisine iletir:
+
+```text
+Tarayıcı
+  -> /api
+  -> Frontend Nginx
+  -> backend:8080
+  -> Spring Boot
+```
+
+Container portları yalnızca localhost'a bağlıdır:
+
+```text
+Frontend: 127.0.0.1:3000
+Backend:  127.0.0.1:8080
+```
+
+PostgreSQL internete açık değildir.
+
+---
+
+## Ana Özellikler
+
+### Proje Platformu
+
+- PostgreSQL'den yüklenen proje listesi
+- Slug tabanlı proje detay sayfaları
+- Backend tarafından yönetilen proje içerikleri
+- Mühendislik vaka analizi bölümleri
+- Teknoloji listeleri
+- Mimari kararlar
+- Proje yol haritaları
+- Loading, error ve not-found durumları
+
+### İletişim Sistemi
+
+- Kontrollü React iletişim formu
+- Backend doğrulaması
+- Girdi temizleme
+- Maksimum alan uzunlukları
+- PostgreSQL veri kaydı
+- Otomatik oluşturulma zamanı
+- Gmail SMTP bildirim e-postaları
+- Gönderen adresi için Reply-To desteği
+- Mail gönderilemese bile veritabanı kaydının korunması
+
+### SEO Temeli
+
+- Route bazlı sayfa başlıkları
+- Route bazlı meta description
+- Dinamik canonical URL
+- Open Graph metadata
+- Twitter card metadata
+- `robots.txt`
+- `sitemap.xml`
+- `Person` structured data
+- `WebSite` structured data
+- Projeye özel `SoftwareSourceCode` structured data
+- Bulunamayan sayfalar için `noindex, nofollow`
+
+### Production Dağıtımı
+
+- Multi-stage backend Docker imajı
+- Multi-stage frontend Docker imajı
+- Frontend Nginx container
+- Docker Compose servis ağı
+- PostgreSQL healthcheck
+- Kalıcı PostgreSQL volume
+- DigitalOcean deployment
+- Host Nginx reverse proxy
+- Cloudflare proxy
+- HTTPS sertifika yenileme
+- UFW firewall
+
+---
+
+## Veri Akışları
+
+### Proje Verisi
+
+```text
+PostgreSQL
+  -> ProjectRepository
+  -> ProjectEntity
+  -> ProjectMapper
+  -> ProjectDto
+  -> ProjectService
+  -> ProjectController
+  -> JSON yanıtı
+  -> React frontend
+```
+
+### İletişim Mesajı
+
+```text
+React ContactForm
+  -> Frontend API katmanı
+  -> POST /api/contact
+  -> ContactController
+  -> ContactService
+  -> ContactMessageRepository
+  -> PostgreSQL
+  -> ContactNotificationService
+  -> Gmail SMTP
+  -> Bildirim e-postası
+```
+
+Önce veritabanı kaydı yapılır, ardından e-posta bildirimi gönderilmeye çalışılır.
+
+SMTP hatası oluşursa mesaj PostgreSQL içinde kalmaya devam eder.
+
+---
+
+## Proje Yapısı
+
+```text
+onurerkoc.dev/
+├── backend/
+│   ├── database/
+│   │   └── project-data.sql
+│   │
+│   ├── src/main/java/com/onurerkoc/backend/
+│   │   ├── contact/
+│   │   │   ├── ContactController.java
+│   │   │   ├── ContactMessage.java
+│   │   │   ├── ContactMessageRepository.java
+│   │   │   ├── ContactNotificationService.java
+│   │   │   ├── ContactRequestDto.java
+│   │   │   └── ContactService.java
+│   │   │
+│   │   ├── controller/
+│   │   │   └── HealthController.java
+│   │   │
+│   │   └── project/
+│   │       ├── ProjectController.java
+│   │       ├── ProjectDto.java
+│   │       ├── ProjectEntity.java
+│   │       ├── ProjectMapper.java
+│   │       ├── ProjectRepository.java
+│   │       └── ProjectService.java
+│   │
+│   ├── src/main/resources/
+│   │   └── application.properties
+│   ├── .dockerignore
+│   ├── Dockerfile
+│   ├── mvnw
+│   ├── mvnw.cmd
+│   └── pom.xml
+│
+├── frontend/
+│   ├── public/
+│   │   ├── robots.txt
+│   │   └── sitemap.xml
+│   │
+│   ├── src/
+│   │   ├── api/
+│   │   ├── components/
+│   │   │   └── Seo.jsx
+│   │   ├── pages/
+│   │   ├── App.jsx
+│   │   ├── App.css
+│   │   └── main.jsx
+│   │
+│   ├── .dockerignore
+│   ├── Dockerfile
+│   ├── index.html
+│   ├── nginx.conf
+│   ├── package.json
+│   └── vite.config.js
+│
+├── docs/
+│   └── production-deployment.md
+│
+├── infrastructure/
+│   └── nginx/
+│       └── onurerkoc.dev.conf
+│
+├── .env.example
+├── .gitignore
+├── compose.yaml
+└── README.md
+```
+
+---
+
+## Yerel Geliştirme
+
+### Gereksinimler
+
+- Java 21
+- Node.js
+- npm
+- Git
+- PostgreSQL
+
+### Veritabanını Oluştur
+
+```sql
+CREATE DATABASE onurerkoc_dev;
+```
+
+Varsayılan ayarlar:
+
+```text
+Host:     localhost
+Port:     5432
+Database: onurerkoc_dev
+Username: postgres
+```
+
+PowerShell oturumunda parolayı tanımla:
+
+```powershell
+$env:DB_PASSWORD = "postgresql-parolan"
+```
+
+İsteğe bağlı değişkenler:
+
+```powershell
+$env:DB_URL = "jdbc:postgresql://localhost:5432/onurerkoc_dev"
+$env:DB_USERNAME = "postgres"
+$env:DB_PASSWORD = "postgresql-parolan"
+```
+
+### İlk Proje Verilerini Yükle
+
+```powershell
+& "C:\Program Files\PostgreSQL\18\bin\psql.exe" `
+  -U postgres `
+  -h localhost `
+  -d onurerkoc_dev `
+  -f "backend\database\project-data.sql"
+```
+
+Script şu proje kayıtlarını yeniden oluşturur:
+
+- `onurerkoc.dev`
+- `Portfolio API`
+- `Deployment Lab`
+
+İletişim mesajlarını silmez.
+
+### Backend'i Çalıştır
+
+```powershell
+cd backend
+$env:DB_PASSWORD = "postgresql-parolan"
+.\mvnw.cmd spring-boot:run
+```
+
+Backend:
+
+```text
+http://localhost:8080
+```
+
+### Frontend'i Çalıştır
+
+```powershell
+cd frontend
+npm install
+npm run dev
+```
+
+Frontend:
+
+```text
+http://localhost:5173
+```
+
+Vite, `/api` isteklerini Spring Boot backend'e yönlendirir.
+
+---
+
+## Docker Compose
+
+Proje kökünde gerçek `.env` dosyasını oluştur:
+
+```env
+POSTGRES_PASSWORD=veritabani-parolan
+
+CONTACT_EMAIL_ENABLED=true
+MAIL_USERNAME=gmail-adresin@gmail.com
+MAIL_PASSWORD=google-uygulama-sifren
+CONTACT_NOTIFICATION_TO=bildirim-adresin@gmail.com
+```
+
+`MAIL_PASSWORD` için normal Google şifresi değil, Google App Password kullanılmalıdır.
+
+Gerçek `.env` dosyası Git tarafından ignore edilir.
+
+### Yapılandırmayı Kontrol Et
+
+```powershell
+docker compose config
+```
+
+### Tüm Sistemi Başlat
+
+```powershell
+docker compose up --build -d
+```
+
+### Servisleri Kontrol Et
+
+```powershell
+docker compose ps
+```
+
+### Backend Loglarını Gör
+
+```powershell
+docker compose logs --tail=200 backend
+```
+
+### Verileri Silmeden Durdur
+
+```powershell
+docker compose down
+```
+
+### PostgreSQL Volume'unu Sil
+
+```powershell
+docker compose down -v
+```
+
+Normal geliştirme ve production güncellemelerinde `-v` kullanma.
+
+---
+
+## Ortam Değişkenleri
+
+### Veritabanı
+
+| Değişken | Açıklama |
+|---|---|
+| `POSTGRES_PASSWORD` | PostgreSQL container parolası |
+| `DB_URL` | JDBC bağlantı adresi |
+| `DB_USERNAME` | PostgreSQL kullanıcı adı |
+| `DB_PASSWORD` | Backend veritabanı parolası |
+
+### İletişim E-postası
+
+| Değişken | Açıklama |
+|---|---|
+| `CONTACT_EMAIL_ENABLED` | Bildirimleri açar veya kapatır |
+| `MAIL_USERNAME` | Gönderici Gmail hesabı |
+| `MAIL_PASSWORD` | Google App Password |
+| `CONTACT_NOTIFICATION_TO` | Bildirimin gönderileceği adres |
+
+Gerçek değerler GitHub'a gönderilmemelidir.
+
+---
+
+## API Endpointleri
+
+### Health
+
+```http
+GET /api/health
+```
+
+### Proje Listesi
+
+```http
+GET /api/projects
+```
+
+### Proje Detayı
+
+```http
+GET /api/projects/{slug}
+```
+
+Örnekler:
+
+```text
+GET /api/projects/onurerkoc-dev
+GET /api/projects/portfolio-api
+GET /api/projects/deployment-lab
+```
+
+Olmayan slug için:
+
+```text
+404 Not Found
+```
+
+### İletişim Formu
+
+```http
+POST /api/contact
+```
+
+Örnek:
+
+```json
+{
+  "name": "Onur Erkoç",
+  "email": "onur@example.com",
+  "message": "İletişim formundan gönderilen test mesajı."
+}
+```
+
+Yanıtlar:
+
+```text
+201 Created     -> Mesaj doğrulandı ve kaydedildi
+400 Bad Request -> Geçersiz veya fazla uzun veri
+```
+
+Limitler:
+
+```text
+name    -> 100 karakter
+email   -> 255 karakter
+message -> 2000 karakter
+```
+
+Başarılı istek mesajı PostgreSQL'e kaydeder ve e-posta bildirimi göndermeyi dener.
+
+---
+
+## Veri Kalıcılığı Tasarımı
+
+### Projeler
+
+Ana tablo:
+
+```text
+projects
+```
+
+Liste tabloları:
+
+```text
+project_tech_stack
+project_key_decisions
+project_next_steps
+```
+
+Proje okuma işlemlerinde:
+
+```java
+@Transactional(readOnly = true)
+```
+
+kullanılır.
+
+Ayrıca:
+
+```properties
+spring.jpa.open-in-view=false
+```
+
+ayarına sahiptir.
+
+Entity-to-DTO dönüşümü service transaction içinde tamamlanır.
+
+### İletişim Mesajları
+
+Tablo:
+
+```text
+contact_messages
+```
+
+Alanlar:
+
+```text
+id
+name
+email
+message
+created_at
+```
+
+---
+
+## Production Deployment
+
+Canlı uygulama:
+
+```text
+https://onurerkoc.dev
+```
+
+Deployment dokümanı:
+
+```text
+docs/production-deployment.md
+```
+
+Tekrar kullanılabilir host Nginx ayarı:
+
+```text
+infrastructure/nginx/onurerkoc.dev.conf
+```
+
+### Production Güncelleme
+
+DigitalOcean sunucusunda:
+
+```bash
+cd ~/onurerkoc.dev
+git switch main
+git pull origin main
+docker compose up --build -d
+docker compose ps
+```
+
+### Doğrulama
+
+```bash
+curl https://onurerkoc.dev/api/health
+curl https://onurerkoc.dev/api/projects
+curl -I https://onurerkoc.dev/robots.txt
+curl -I https://onurerkoc.dev/sitemap.xml
+```
+
+### Açık Portlar
+
+```text
+22  -> SSH
+80  -> HTTP
+443 -> HTTPS
+```
+
+İnternete açık olmayan portlar:
+
+```text
+3000
+8080
+5432
+```
+
+### Sertifika Yenileme Testi
+
+```bash
+sudo certbot renew --dry-run
+```
+
+---
+
+## Git Akışı
+
+```text
+main
+  -> feature branch
+  -> commit
+  -> push
+  -> pull request
+  -> review
+  -> merge
+  -> local main güncelleme
+```
+
+Feature branch oluştur:
+
+```powershell
+git switch main
+git pull origin main
+git switch -c feature/feature-name
+```
+
+Kontrol ve commit:
+
+```powershell
+git status
+git diff
+git add .
+git diff --staged
+git commit -m "Tamamlanan özelliği açıkla"
+```
+
+Push:
+
+```powershell
+git push -u origin feature/feature-name
+```
+
+Merge sonrasında:
+
+```powershell
+git switch main
+git pull origin main
+git branch -d feature/feature-name
+```
+
+---
+
+## Güvenlik Notları
+
+- Gerçek `.env` dosyaları Git tarafından ignore edilir.
+- Veritabanı parolaları commit edilmez.
+- Gmail için Google App Password kullanılır.
+- PostgreSQL internete açılmaz.
+- Frontend ve backend portları localhost'a bağlıdır.
+- Yalnızca SSH, HTTP ve HTTPS dışarıya açıktır.
+- Cloudflare dış trafiği proxy üzerinden geçirir.
+- E-posta gönderilemese bile iletişim mesajı veritabanında kalır.
+
+---
+
+## Yol Haritası
+
+### Site Tasarımı v2
+
+- Bilgi mimarisini iyileştirme
+- Navigasyonu sadeleştirme
+- Tekrar kullanılabilir componentleri iyileştirme
+- Proje liste ve detay deneyimini yeniden tasarlama
+- Mobil görünümü geliştirme
+
+### Türkçe ve İngilizce Desteği
+
+- Locale stratejisi belirleme
+- Türkçe ve İngilizce arayüz içeriği ekleme
+- Çoklu dil route yapısını belirleme
+- Validation ve durum mesajlarını çevirme
+- Çoklu dil SEO kurallarını ekleme
+
+### Project API v2
+
+- Proje içerik modelini gözden geçirme
+- Ortak ve çevrilebilir alanları ayırma
+- PostgreSQL şemasını gözden geçirme
+- Entity, DTO, mapper, service ve repository sorumluluklarını güncelleme
+- Proje sayfalarını yeni modele göre yeniden kurma
+
+### Güvenilirlik ve Güvenlik
+
+- İletişim formuna spam koruması
+- Endpoint rate limiting
+- Backend testleri
+- Kritik frontend akış testleri
+- Versiyonlu database migration
+- Manuel süreç öğrenildikten sonra deployment otomasyonu
+
+### Gelecek Yönetim Özellikleri
+
+- Proje ekleme ve güncelleme endpointleri
+- Yönetim arayüzü
+- İletişim mesajı yönetimi
+
+---
+
+## Canlı Site
 
 [https://onurerkoc.dev](https://onurerkoc.dev)
