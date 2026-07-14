@@ -1,0 +1,48 @@
+services:
+  database:
+    image: postgres:18
+
+    environment:
+      POSTGRES_DB: onurerkoc_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+    volumes:
+      - postgres_data:/var/lib/postgresql
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d onurerkoc_dev"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+
+    environment:
+      DB_URL: jdbc:postgresql://database:5432/onurerkoc_dev
+      DB_USERNAME: postgres
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+
+    depends_on:
+      database:
+        condition: service_healthy
+
+    ports:
+      - "127.0.0.1:8080:8080"
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_BASE_URL: /api
+
+    depends_on:
+      - backend
+
+    ports:
+      - "127.0.0.1:3000:80"
+
+volumes:
+  postgres_data:
