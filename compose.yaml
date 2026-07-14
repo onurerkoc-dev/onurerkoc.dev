@@ -25,6 +25,11 @@ services:
       DB_USERNAME: postgres
       DB_PASSWORD: ${POSTGRES_PASSWORD}
 
+      CONTACT_EMAIL_ENABLED: "${CONTACT_EMAIL_ENABLED:-false}"
+      MAIL_USERNAME: "${MAIL_USERNAME:-}"
+      MAIL_PASSWORD: "${MAIL_PASSWORD:-}"
+      CONTACT_NOTIFICATION_TO: "${CONTACT_NOTIFICATION_TO:-}"
+
     depends_on:
       database:
         condition: service_healthy
@@ -35,6 +40,7 @@ services:
   frontend:
     build:
       context: ./frontend
+
       args:
         VITE_API_BASE_URL: /api
 
