@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router'
 import { getProjectBySlug } from '../api/projectsApi'
+import Seo from '../components/Seo'
+
+
 
 function ProjectDetailPage() {
     const { slug } = useParams()
@@ -8,7 +11,50 @@ function ProjectDetailPage() {
     const [project, setProject] = useState(null)
     const [status, setStatus] = useState('loading')
     const [errorMessage, setErrorMessage] = useState('')
+    const canonicalPath = `/projects/${slug}`
+    const canonicalUrl = `https://onurerkoc.dev${canonicalPath}`
 
+    const seoTitle =
+        status === 'success' && project
+            ? `${project.title} | Onur Erkoç`
+            : status === 'error'
+                ? 'Project Not Found | Onur Erkoç'
+                : 'Project Case Study | Onur Erkoç'
+
+    const seoDescription =
+        status === 'success' && project
+            ? project.summary
+            : status === 'error'
+                ? 'The requested project could not be found on onurerkoc.dev.'
+                : 'Engineering project case study by Onur Erkoç.'
+
+    const seoRobots =
+        status === 'error'
+            ? 'noindex, nofollow'
+            : 'index, follow'
+
+    const projectStructuredData =
+        status === 'success' && project
+            ? {
+                '@context': 'https://schema.org',
+                '@type': 'SoftwareSourceCode',
+                name: project.title,
+                description: project.summary,
+                url: canonicalUrl,
+                dateModified: project.updatedAt,
+                keywords: project.techStack.join(', '),
+                author: {
+                    '@type': 'Person',
+                    name: 'Onur Erkoç',
+                    url: 'https://onurerkoc.dev/',
+                },
+                ...(project.githubUrl
+                    ? {
+                        codeRepository: project.githubUrl,
+                    }
+                    : {}),
+            }
+            : null
     useEffect(() => {
         const controller = new AbortController()
 
@@ -39,6 +85,18 @@ function ProjectDetailPage() {
 
     return (
         <main className="siteShell">
+            <Seo
+                title={seoTitle}
+                description={seoDescription}
+                path={canonicalPath}
+                robots={seoRobots}
+                type={
+                    status === 'success'
+                        ? 'article'
+                        : 'website'
+                }
+                structuredData={projectStructuredData}
+            />
             <div className="backgroundGrid" />
 
             <section className="section projectDetailSection">
