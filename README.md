@@ -1,28 +1,32 @@
 # onurerkoc.dev
 
-Personal full-stack build lab and engineering notebook of Onur Erkoç.
+Personal full-stack build lab and engineering notebook of **Onur Erkoç**.
 
-`onurerkoc.dev` is not designed as a generic portfolio. It is an evolving engineering space where frontend development, backend systems, database persistence, architectural decisions, deployment experiments, and real-world projects are documented together.
+**Live website:** [https://onurerkoc.dev](https://onurerkoc.dev)
 
-## About the Project
+`onurerkoc.dev` is not designed as a generic portfolio. It is a production-oriented engineering platform where frontend development, backend systems, database persistence, architectural decisions, deployment work, and project evolution are documented together.
 
-The goal of this project is to build a production-oriented personal platform step by step while documenting the engineering process behind it.
+## Project Goal
 
-The project is being developed to practice and demonstrate:
+The goal of this project is to build and operate a real full-stack platform while learning the engineering decisions behind it.
+
+The project currently demonstrates:
 
 - React and Vite frontend development
 - Java 21 and Spring Boot backend development
 - REST API design
-- Client-side routing
-- Frontend API architecture
-- Controller, service, repository, entity, and DTO separation
+- React Router and client-side navigation
+- Centralized frontend API communication
+- Controller, service, repository, entity, mapper, and DTO separation
 - PostgreSQL persistence
 - Spring Data JPA and Hibernate
 - Full-stack form handling
-- Git and GitHub pull request workflow
-- Docker-based deployment
-- Linux server management
+- Docker and Docker Compose
+- Linux server administration
 - Nginx reverse proxy configuration
+- Cloudflare DNS and proxy configuration
+- HTTPS with Let's Encrypt and Certbot
+- Git feature branches and pull requests
 - Production deployment on DigitalOcean
 
 ## Tech Stack
@@ -34,6 +38,7 @@ The project is being developed to practice and demonstrate:
 - JavaScript
 - React Router
 - CSS
+- Nginx production container
 
 ### Backend
 
@@ -42,35 +47,76 @@ The project is being developed to practice and demonstrate:
 - Spring Data JPA
 - Hibernate
 - REST API
+- Maven
 
 ### Database
 
-- PostgreSQL
+- PostgreSQL 18
 
-### Planned Infrastructure
+### Infrastructure
 
 - Docker
 - Docker Compose
-- Nginx
+- Ubuntu 24.04 LTS
 - DigitalOcean
-- HTTPS
+- Host Nginx reverse proxy
+- Cloudflare
+- Let's Encrypt
+- Certbot
+- UFW firewall
 
-## Current Architecture
+## Production Architecture
 
 ```text
-React Frontend
-  -> Frontend API Layer
-  -> Vite Development Proxy
-  -> Spring Boot REST Controller
-  -> Service Layer
-  -> Repository Layer
-  -> JPA / Hibernate
-  -> PostgreSQL
+User
+  -> Cloudflare DNS and proxy
+  -> DigitalOcean Ubuntu server
+  -> Host Nginx reverse proxy
+  -> React frontend container
+  -> Spring Boot backend container
+  -> PostgreSQL container
 ```
 
-Both project content and contact form submissions are stored permanently in PostgreSQL.
+The application runs as three Docker Compose services:
 
-### Project Data Flow
+```text
+frontend
+backend
+database
+```
+
+Public traffic enters through the host Nginx server.
+
+```text
+Internet
+  -> 80 / 443
+  -> Host Nginx
+  -> 127.0.0.1:3000
+  -> Frontend container
+```
+
+The frontend container proxies `/api` requests to the backend service through the Docker Compose network.
+
+```text
+Browser request
+  -> /api
+  -> Frontend Nginx
+  -> backend:8080
+  -> Spring Boot
+```
+
+The backend and frontend container ports are bound only to localhost:
+
+```text
+Frontend: 127.0.0.1:3000
+Backend:  127.0.0.1:8080
+```
+
+PostgreSQL is not exposed to the public internet. It is accessible only inside the Docker Compose network.
+
+## Application Data Flows
+
+### Project Data
 
 ```text
 PostgreSQL
@@ -80,15 +126,15 @@ PostgreSQL
   -> ProjectDto
   -> ProjectService
   -> ProjectController
-  -> JSON Response
-  -> React Frontend
+  -> JSON response
+  -> React frontend
 ```
 
-### Contact Message Flow
+### Contact Messages
 
 ```text
 React ContactForm
-  -> Frontend API Layer
+  -> Frontend API layer
   -> POST /api/contact
   -> ContactController
   -> ContactService
@@ -97,84 +143,60 @@ React ContactForm
   -> PostgreSQL
 ```
 
-## Project Structure
+Contact messages are currently stored permanently in PostgreSQL. Email notifications will be added in a later feature without removing database persistence.
+
+## Repository Structure
 
 ```text
 onurerkoc.dev/
-├── frontend/
-│   ├── src/
-│   │   ├── api/
-│   │   │   ├── client.js
-│   │   │   ├── contactApi.js
-│   │   │   ├── healthApi.js
-│   │   │   └── projectsApi.js
-│   │   │
-│   │   ├── components/
-│   │   │   ├── BackendStatus.jsx
-│   │   │   ├── ContactForm.jsx
-│   │   │   ├── Hero.jsx
-│   │   │   ├── Navbar.jsx
-│   │   │   ├── ProjectsSection.jsx
-│   │   │   ├── Section.jsx
-│   │   │   ├── StackList.jsx
-│   │   │   ├── TerminalCard.jsx
-│   │   │   └── WorkCard.jsx
-│   │   │
-│   │   ├── pages/
-│   │   │   ├── HomePage.jsx
-│   │   │   ├── NotFoundPage.jsx
-│   │   │   └── ProjectDetailPage.jsx
-│   │   │
-│   │   ├── App.jsx
-│   │   ├── App.css
-│   │   └── main.jsx
-│   │
-│   ├── .env.example
-│   ├── index.html
-│   ├── package.json
-│   ├── package-lock.json
-│   └── vite.config.js
-│
 ├── backend/
 │   ├── database/
 │   │   └── project-data.sql
-│   │
 │   ├── src/main/java/com/onurerkoc/backend/
 │   │   ├── contact/
-│   │   │   ├── ContactController.java
-│   │   │   ├── ContactMessage.java
-│   │   │   ├── ContactMessageRepository.java
-│   │   │   ├── ContactRequestDto.java
-│   │   │   └── ContactService.java
-│   │   │
 │   │   ├── controller/
-│   │   │   └── HealthController.java
-│   │   │
 │   │   └── project/
-│   │       ├── ProjectController.java
-│   │       ├── ProjectDto.java
-│   │       ├── ProjectEntity.java
-│   │       ├── ProjectMapper.java
-│   │       ├── ProjectRepository.java
-│   │       └── ProjectService.java
-│   │
 │   ├── src/main/resources/
 │   │   └── application.properties
-│   │
+│   ├── .dockerignore
+│   ├── Dockerfile
 │   ├── mvnw
 │   ├── mvnw.cmd
 │   └── pom.xml
 │
+├── frontend/
+│   ├── src/
+│   │   ├── api/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── App.jsx
+│   │   ├── App.css
+│   │   └── main.jsx
+│   ├── .dockerignore
+│   ├── Dockerfile
+│   ├── index.html
+│   ├── nginx.conf
+│   ├── package.json
+│   └── vite.config.js
+│
+├── docs/
+│   └── production-deployment.md
+│
+├── infrastructure/
+│   └── nginx/
+│       └── onurerkoc.dev.conf
+│
+├── .env.example
+├── .gitignore
+├── compose.yaml
 └── README.md
 ```
 
 ## Local Development
 
-The frontend and backend run as separate applications during development.
+The frontend and backend can run as separate applications during development.
 
 ### Prerequisites
-
-Make sure the following tools are installed:
 
 - Java 21
 - Node.js
@@ -182,7 +204,7 @@ Make sure the following tools are installed:
 - Git
 - PostgreSQL
 
-## Database Setup
+### Database Setup
 
 Create the local PostgreSQL database:
 
@@ -190,7 +212,7 @@ Create the local PostgreSQL database:
 CREATE DATABASE onurerkoc_dev;
 ```
 
-The default local database configuration is:
+Default local database configuration:
 
 ```text
 Host:     localhost
@@ -199,9 +221,9 @@ Database: onurerkoc_dev
 Username: postgres
 ```
 
-The database password is not stored inside the repository.
+The real database password must not be stored in the repository.
 
-Set the password as an environment variable in the PowerShell session that will run the backend:
+Set it in the PowerShell session used to run the backend:
 
 ```powershell
 $env:DB_PASSWORD = "your-postgresql-password"
@@ -215,17 +237,15 @@ $env:DB_USERNAME = "postgres"
 $env:DB_PASSWORD = "your-postgresql-password"
 ```
 
-Do not commit real database credentials to Git.
-
 ### Initial Project Data
 
-The initial project records are stored in:
+Initial project records are stored in:
 
 ```text
 backend/database/project-data.sql
 ```
 
-Run the SQL script from the project root:
+Run the script from the project root:
 
 ```powershell
 & "C:\Program Files\PostgreSQL\18\bin\psql.exe" `
@@ -235,19 +255,15 @@ Run the SQL script from the project root:
   -f "backend\database\project-data.sql"
 ```
 
-The script recreates the current project records:
+The script recreates the current records for:
 
 - `onurerkoc.dev`
 - `Portfolio API`
 - `Deployment Lab`
 
-The script can be run again safely. It only resets these three project records and their related list data.
+It can be run again safely. It resets only these project records and their related collection data. It does not delete contact messages.
 
-It does not delete or modify contact messages.
-
-## Start the Backend
-
-Open PowerShell in the project root:
+### Run the Backend
 
 ```powershell
 cd backend
@@ -255,21 +271,15 @@ $env:DB_PASSWORD = "your-postgresql-password"
 .\mvnw.cmd spring-boot:run
 ```
 
-If Maven is installed globally, you can also use:
-
-```powershell
-mvn spring-boot:run
-```
-
-The backend runs on:
+Backend address:
 
 ```text
 http://localhost:8080
 ```
 
-## Start the Frontend
+### Run the Frontend
 
-Open a second PowerShell window in the project root:
+Open another PowerShell window:
 
 ```powershell
 cd frontend
@@ -277,42 +287,68 @@ npm install
 npm run dev
 ```
 
-The frontend runs on:
+Frontend address:
 
 ```text
 http://localhost:5173
 ```
 
-## Build Verification
+During development, Vite proxies `/api` requests to the Spring Boot backend.
 
-### Backend
+## Docker Compose
 
-From the `backend` directory:
+The complete application can also run locally with Docker Compose.
 
-```powershell
-$env:DB_PASSWORD = "your-postgresql-password"
-.\mvnw.cmd test
+Create a real `.env` file from `.env.example`:
+
+```env
+POSTGRES_PASSWORD=your-local-postgresql-password
 ```
 
-A working PostgreSQL connection is required while loading the Spring application context.
+The real `.env` file is ignored by Git.
 
-### Frontend
-
-From the `frontend` directory:
+Start the complete environment:
 
 ```powershell
-npm run build
+docker compose up --build -d
 ```
 
-The production files are generated under:
+Check service status:
 
-```text
-frontend/dist
+```powershell
+docker compose ps
+```
+
+Stop the environment without deleting PostgreSQL data:
+
+```powershell
+docker compose down
+```
+
+The following command also deletes the PostgreSQL volume and its data:
+
+```powershell
+docker compose down -v
+```
+
+Do not use `-v` during normal development or production updates.
+
+### Load Project Data into Docker PostgreSQL
+
+```powershell
+docker compose cp backend/database/project-data.sql database:/tmp/project-data.sql
+```
+
+```powershell
+docker compose exec database psql `
+  -U postgres `
+  -d onurerkoc_dev `
+  -f /tmp/project-data.sql
 ```
 
 ## API Endpoints
 
-### Backend Health
+### Health
 
 ```http
 GET /api/health
@@ -334,9 +370,7 @@ Returns all projects stored in PostgreSQL.
 GET /api/projects/{slug}
 ```
 
-Returns a single project based on its unique slug.
-
-Example requests:
+Examples:
 
 ```text
 GET /api/projects/onurerkoc-dev
@@ -344,7 +378,7 @@ GET /api/projects/portfolio-api
 GET /api/projects/deployment-lab
 ```
 
-When a project cannot be found, the backend returns:
+An unknown project slug returns:
 
 ```text
 404 Not Found
@@ -356,9 +390,7 @@ When a project cannot be found, the backend returns:
 POST /api/contact
 ```
 
-Accepts contact form data from the React frontend, validates it, and stores it in PostgreSQL.
-
-Example request body:
+Example request:
 
 ```json
 {
@@ -368,20 +400,14 @@ Example request body:
 }
 ```
 
-Example success response:
-
-```text
-Message received from Onur Erkoç
-```
-
 Response behavior:
 
 ```text
-201 Created     -> Contact message was validated and stored
-400 Bad Request -> Missing, invalid, or oversized form data
+201 Created     -> Message validated and stored
+400 Bad Request -> Invalid, missing, or oversized data
 ```
 
-Current contact field limits:
+Current field limits:
 
 ```text
 name    -> 100 characters
@@ -397,24 +423,16 @@ Frontend API calls are centralized under:
 frontend/src/api
 ```
 
-Current API modules:
+Current modules:
 
 ```text
-client.js       -> Shared API request helper
+client.js       -> Shared request helper
 contactApi.js   -> Contact form requests
 healthApi.js    -> Backend health request
-projectsApi.js  -> Project list and project detail requests
+projectsApi.js  -> Project list and detail requests
 ```
 
-React components do not contain direct backend communication logic.
-
-Instead of calling:
-
-```js
-fetch('/api/...')
-```
-
-inside UI components, the application uses dedicated functions:
+React components do not contain direct backend request logic. They use dedicated API functions:
 
 ```js
 getBackendHealth()
@@ -423,30 +441,11 @@ getProjectBySlug(slug)
 submitContactForm(contactData)
 ```
 
-This keeps React components focused on:
-
-- Interface rendering
-- State management
-- Loading states
-- Success states
-- Error states
-- User interaction
-
-### Frontend Request Flow
-
-```text
-React Component
-  -> API Function
-  -> Shared API Client
-  -> Vite Proxy
-  -> Spring Boot Endpoint
-```
+This keeps UI components focused on rendering, state, loading, success, error, and user interaction.
 
 ## Frontend Routing
 
-The frontend uses React Router for client-side navigation.
-
-### Current Routes
+Current routes:
 
 ```text
 /                       -> Home page
@@ -454,122 +453,17 @@ The frontend uses React Router for client-side navigation.
 *                       -> Not found page
 ```
 
-### Example Project Routes
+React Router fallback is configured in the frontend Nginx container, so direct page refreshes continue to work in production.
 
-```text
-/projects/onurerkoc-dev
-/projects/portfolio-api
-/projects/deployment-lab
-```
+## Persistence Design
 
-Project cards use each project's `slug` value to create detail page URLs.
+### Projects
 
-### Project Detail Flow
+`ProjectEntity` represents the PostgreSQL model.
 
-```text
-WorkCard
-  -> React Router Link
-  -> ProjectDetailPage
-  -> useParams
-  -> getProjectBySlug
-  -> GET /api/projects/{slug}
-  -> Spring Boot Backend
-  -> PostgreSQL
-```
+`ProjectDto` represents the public JSON response.
 
-An unknown general route is handled by `NotFoundPage`.
-
-An unknown project slug is handled inside `ProjectDetailPage` after the backend returns `404 Not Found`.
-
-## Project Persistence
-
-Project records are represented by the `ProjectEntity` JPA entity.
-
-```text
-ProjectEntity Java object
-  -> Hibernate mapping
-  -> PostgreSQL project tables
-```
-
-### Main Project Table
-
-Single-value project fields are stored in:
-
-```text
-projects
-```
-
-The table contains fields such as:
-
-```text
-id
-title
-slug
-type
-summary
-description
-status
-github_url
-live_url
-featured
-problem
-goal
-architecture
-updated_at
-```
-
-### Project Collection Tables
-
-The following fields contain multiple values:
-
-```text
-techStack
-keyDecisions
-nextSteps
-```
-
-They are stored in separate collection tables:
-
-```text
-project_tech_stack
-project_key_decisions
-project_next_steps
-```
-
-Each collection row is connected to a project through `project_id`.
-
-The `item_order` column preserves the original order of each list.
-
-### Project Repository
-
-`ProjectRepository` extends Spring Data JPA's `JpaRepository`.
-
-It provides database operations such as:
-
-```text
-findAll
-findById
-findBySlug
-save
-saveAll
-deleteById
-count
-```
-
-The project service currently uses:
-
-```text
-findAll
-findBySlug
-```
-
-### Entity-to-DTO Mapping
-
-`ProjectEntity` represents the PostgreSQL data model.
-
-`ProjectDto` represents the JSON structure sent to the frontend.
-
-`ProjectMapper` converts between them:
+`ProjectMapper` converts the entity into the DTO:
 
 ```text
 ProjectEntity
@@ -577,95 +471,49 @@ ProjectEntity
   -> ProjectDto
 ```
 
-This keeps the database model separate from the public API response model.
+Main project data is stored in:
+
+```text
+projects
+```
+
+Collection fields are stored in:
+
+```text
+project_tech_stack
+project_key_decisions
+project_next_steps
+```
+
+`item_order` preserves list order.
 
 ### Read-Only Transactions
 
-Project collection fields are loaded while the service transaction is active.
+Project reads use:
 
 ```java
 @Transactional(readOnly = true)
 ```
 
-The service reads the entity, loads its lists, converts it into a DTO, and then closes the transaction.
+Entities and their collection fields are mapped to DTOs while the transaction is active.
 
-```text
-Repository reads entity
-  -> Collection fields are loaded
-  -> Entity is mapped into DTO
-  -> Transaction closes
-  -> Controller returns prepared DTO
-```
-
-This prevents lazy-loading errors while keeping:
+The project keeps:
 
 ```properties
 spring.jpa.open-in-view=false
 ```
 
-## Project Case Studies
+This prevents database access from leaking into the web layer and avoids lazy-loading errors by completing mapping inside the service layer.
 
-Project detail pages are designed as engineering case studies rather than standard portfolio descriptions.
+### Contact Messages
 
-Each project currently includes:
-
-```text
-id
-title
-slug
-type
-summary
-description
-techStack
-status
-githubUrl
-liveUrl
-featured
-problem
-goal
-architecture
-keyDecisions
-nextSteps
-updatedAt
-```
-
-The case study interface separates project content into dedicated sections:
+Contact messages are stored in:
 
 ```text
-01 / Context       -> Problem
-02 / Direction     -> Goal
-03 / System Design -> Architecture
-04 / Engineering   -> Key Decisions
-05 / Roadmap       -> Next Steps
-06 / Overview      -> Module Description
+contact_messages
 ```
 
-### Case Study Data Flow
-
-```text
-PostgreSQL
-  -> ProjectRepository
-  -> ProjectEntity
-  -> ProjectMapper
-  -> ProjectDto
-  -> ProjectService
-  -> ProjectController
-  -> Frontend API Layer
-  -> ProjectDetailPage
-  -> Engineering Case Study UI
-```
-
-## Contact Persistence
-
-Contact messages are represented by the `ContactMessage` JPA entity.
-
-```text
-ContactMessage Java object
-  -> Hibernate mapping
-  -> contact_messages PostgreSQL table
-```
-
-The contact table stores:
+Stored fields:
 
 ```text
 id
@@ -675,183 +523,103 @@ message
 created_at
 ```
 
-`ContactMessageRepository` extends Spring Data JPA's `JpaRepository`.
+The backend validates and trims form input before creating and saving a `ContactMessage` entity.
 
-The contact service:
+## Production Deployment
 
-- Validates incoming request data
-- Trims form values
-- Creates a `ContactMessage` entity
-- Saves the entity to PostgreSQL
-- Returns a success response
-
-### Contact Request Flow
+The application is deployed at:
 
 ```text
-ContactForm
-  -> submitContactForm
-  -> POST /api/contact
-  -> ContactController
-  -> ContactService
-  -> ContactMessage
-  -> ContactMessageRepository
-  -> JPA / Hibernate
-  -> PostgreSQL
-  -> 201 Created
+https://onurerkoc.dev
 ```
 
-The React form includes:
+Production components:
 
-- Controlled input fields
-- Required field checks
-- Maximum input lengths
-- Message character counter
-- Submit loading state
-- Success feedback
-- Error feedback
+- DigitalOcean Ubuntu server
+- Docker Compose
+- PostgreSQL persistent volume
+- Host Nginx reverse proxy
+- Cloudflare DNS and proxy
+- Let's Encrypt SSL certificate
+- Certbot certificate renewal
+- UFW firewall
 
-The Spring Boot backend includes:
-
-- Request body conversion
-- Name validation
-- Basic email validation
-- Message validation
-- Maximum field-length validation
-- Input trimming
-- JPA entity mapping
-- Repository persistence
-- Automatic creation timestamps
-- `201 Created` success response
-- `400 Bad Request` validation response
-
-The current contact system does not yet include:
-
-- Email notifications
-- Spam protection
-- Rate limiting
-- Administration interface
-
-## Database Configuration
-
-Backend database configuration is stored in:
+Detailed deployment instructions are stored in:
 
 ```text
-backend/src/main/resources/application.properties
+docs/production-deployment.md
 ```
 
-The configuration supports the following environment variables:
+The reusable host Nginx configuration is stored in:
 
 ```text
-DB_URL
-DB_USERNAME
-DB_PASSWORD
+infrastructure/nginx/onurerkoc.dev.conf
 ```
 
-Example configuration:
+### Production Environment Variables
 
-```properties
-spring.datasource.url=${DB_URL:jdbc:postgresql://localhost:5432/onurerkoc_dev}
-spring.datasource.username=${DB_USERNAME:postgres}
-spring.datasource.password=${DB_PASSWORD}
-
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.open-in-view=false
-spring.jpa.show-sql=true
-spring.jpa.properties.hibernate.format_sql=true
-```
-
-Hibernate currently manages local schema updates through:
-
-```properties
-spring.jpa.hibernate.ddl-auto=update
-```
-
-A future production iteration can replace automatic schema updates with versioned database migrations.
-
-## Frontend Environment Variables
-
-Frontend environment variables are documented in:
-
-```text
-frontend/.env.example
-```
-
-Current configuration:
+Production credentials are stored in a server-local `.env` file.
 
 ```env
-VITE_API_BASE_URL=/api
+POSTGRES_PASSWORD=production-password
 ```
 
-The shared API client reads this value through Vite:
+Real secrets must never be committed.
 
-```js
-import.meta.env.VITE_API_BASE_URL
+### Production Update Flow
+
+On the server:
+
+```bash
+cd ~/onurerkoc.dev
+git switch main
+git pull origin main
+docker compose up --build -d
+docker compose ps
 ```
 
-During local development, Vite proxies `/api` requests to the Spring Boot backend.
+### Production Verification
+
+```bash
+curl https://onurerkoc.dev/api/health
+curl https://onurerkoc.dev/api/projects
+```
+
+### Firewall
+
+Public ports:
 
 ```text
-Frontend: http://localhost:5173
-Backend:  http://localhost:8080
+22  -> SSH
+80  -> HTTP
+443 -> HTTPS
 ```
 
-For example:
+Ports `3000`, `8080`, and `5432` are not publicly exposed.
 
-```text
-/api/projects
+### HTTPS Renewal Test
+
+```bash
+sudo certbot renew --dry-run
 ```
 
-is forwarded to:
+## SEO Status
 
-```text
-http://localhost:8080/api/projects
-```
-
-A contact request to:
-
-```text
-/api/contact
-```
-
-is forwarded to:
-
-```text
-http://localhost:8080/api/contact
-```
-
-## Basic SEO Foundation
-
-The frontend currently includes basic metadata inside:
-
-```text
-frontend/index.html
-```
-
-Implemented metadata:
+The current frontend includes a basic SEO foundation in `frontend/index.html`:
 
 - Page title
 - Meta description
-- Author
+- Author metadata
 - Robots directive
 - Canonical URL
 - Open Graph title and description
 - Basic Twitter card metadata
 
-Advanced SEO work will be completed after production deployment.
-
-Planned SEO improvements include:
-
-- Dynamic page metadata
-- Project-specific titles and descriptions
-- Structured data
-- `robots.txt`
-- `sitemap.xml`
-- Google Search Console integration
-- Social profile connections
+Advanced SEO work is intentionally scheduled after the site structure, project model, and multilingual route strategy are finalized.
 
 ## Git Workflow
 
-This project uses a feature branch and pull request workflow:
+The project uses feature branches and pull requests:
 
 ```text
 main
@@ -861,90 +629,73 @@ main
   -> pull request
   -> review
   -> merge
-  -> pull main
+  -> update local main
 ```
 
-### Start a New Feature
+Start a feature:
 
 ```powershell
-git checkout main
+git switch main
 git pull origin main
-git checkout -b feature/feature-name
+git switch -c feature/feature-name
 ```
 
-### Review and Commit Changes
+Review and commit:
 
 ```powershell
 git status
 git diff
 git add .
-git status
 git diff --staged
 git commit -m "Describe the completed feature"
 ```
 
-### Push the Feature Branch
+Push:
 
 ```powershell
 git push -u origin feature/feature-name
 ```
 
-After pushing, open a pull request and merge the feature branch into `main`.
-
-### Update the Local Main Branch
+After merging:
 
 ```powershell
-git checkout main
+git switch main
 git pull origin main
-git status
-```
-
-After the feature branch is merged, delete the local feature branch:
-
-```powershell
 git branch -d feature/feature-name
 ```
 
 ## Current Status
 
-### Implemented
+### Completed
 
 - React and Vite frontend
 - Java 21 and Spring Boot backend
-- PostgreSQL database integration
-- Spring Data JPA and Hibernate integration
-- Backend health endpoint
-- Project list endpoint
-- Slug-based project detail endpoint
-- PostgreSQL-backed project storage
-- `ProjectEntity` database mapping
-- `ProjectRepository` database access
-- Entity-to-DTO conversion with `ProjectMapper`
-- Persistent project technology lists
-- Persistent engineering decision lists
-- Persistent project roadmap lists
-- Read-only project service transactions
-- Re-runnable initial project data SQL script
-- Contact form API endpoint
-- Full-stack contact form
-- Persistent contact message storage
-- Contact message entity and repository
-- Automatic contact message timestamps
-- Backend contact validation
-- Maximum backend field-length validation
-- Synchronized frontend, backend, and database field limits
-- `201 Created` response for stored contact messages
 - Centralized frontend API layer
-- Vite development proxy
 - React Router integration
-- Dynamic project detail pages
-- General frontend 404 page
-- Loading, success, and error states
+- Project list and detail pages
 - Engineering case study sections
-- Responsive project detail interface
+- Backend health endpoint
+- Contact form API
+- PostgreSQL contact persistence
+- PostgreSQL project persistence
+- Spring Data JPA and Hibernate
+- Entity, repository, mapper, DTO, service, and controller separation
+- Read-only service transactions
+- Re-runnable project seed script
+- Backend Docker image
+- Frontend production Docker image
+- Frontend Nginx configuration
+- Docker Compose environment
+- PostgreSQL health check
+- Persistent PostgreSQL Docker volume
+- DigitalOcean production deployment
+- Host Nginx reverse proxy
+- Cloudflare DNS and proxy
+- HTTPS with Let's Encrypt and Certbot
+- UFW firewall
+- Live production domain
 - Basic SEO metadata
-- Git feature branch and pull request workflow
-- Local development documentation
+- Feature branch and pull request workflow
 
 ### Current Project Modules
 
@@ -954,35 +705,64 @@ git branch -d feature/feature-name
 
 ## Roadmap
 
-### Next Main Phase
+The next phase will not add random features one by one. The project will be reorganized in a controlled order so that design, content, API, language support, and SEO do not conflict with each other.
 
-- Create a backend Dockerfile
-- Create a frontend production Dockerfile
-- Add Docker Compose configuration
-- Run PostgreSQL through Docker Compose
-- Configure container environment variables
-- Verify the full-stack application inside containers
+### Phase 1 — Site Structure and Design v2
 
-### Deployment Phase
+- Review the current information architecture
+- Decide the final main navigation
+- Redesign the visual system
+- Simplify reusable frontend components
+- Define the home page sections
+- Redesign project list and detail experiences
+- Preserve working API and production behavior during the redesign
 
-- Configure Nginx as a reverse proxy
-- Prepare the DigitalOcean server
-- Deploy the frontend, backend, and PostgreSQL services
-- Connect the `onurerkoc.dev` domain
-- Enable HTTPS
-- Configure production environment variables
+### Phase 2 — Turkish and English Support
 
-### Future Improvements
+- Add a clear locale strategy
+- Add Turkish and English interface content
+- Decide multilingual route structure
+- Translate navigation, page content, validation, and status messages
+- Keep language logic outside presentation components where possible
 
-- Add basic automated backend tests
+### Phase 3 — Project Model and API v2
+
+- Redesign the project content model
+- Separate localized project content from shared technical data
+- Review the PostgreSQL project schema
+- Create Project API v2
+- Update entity, DTO, mapper, service, and repository responsibilities
+- Update project seed data
+- Rebuild project list and detail pages around the new API
+
+### Phase 4 — Contact Email Notifications
+
+- Keep PostgreSQL as the permanent message record
+- Send an email notification after a valid message is stored
+- Store mail credentials only in environment variables
+- Handle mail delivery failures without losing the database record
+- Add basic spam protection
+- Add rate limiting
+
+### Phase 5 — SEO v2
+
+- Add route-specific titles and descriptions
+- Add project-specific canonical URLs
+- Add multilingual canonical and alternate-language strategy
+- Add `robots.txt`
+- Add `sitemap.xml`
+- Add structured data
+- Improve Open Graph and Twitter metadata
+- Configure the preferred `www` redirect
+- Connect Google Search Console
+- Submit the production sitemap
+
+### Later Improvements
+
+- Add automated backend tests
+- Add frontend tests for critical flows
+- Add versioned database migrations
 - Add project creation and update endpoints
 - Add an administration workflow
 - Add contact message administration
-- Add email notifications for contact messages
-- Add spam protection and rate limiting
-- Add project changelog and timeline sections
-- Add versioned database migrations
-- Add dynamic SEO metadata
-- Add structured data
-- Add sitemap and robots files
-- Connect the website to Google Search Console
+- Add deployment automation after the manual workflow is fully understood
