@@ -6,11 +6,14 @@ import org.springframework.stereotype.Service;
 public class ContactService {
 
     private final ContactMessageRepository contactMessageRepository;
+    private final ContactNotificationService contactNotificationService;
 
     public ContactService(
-            ContactMessageRepository contactMessageRepository
+            ContactMessageRepository contactMessageRepository,
+            ContactNotificationService contactNotificationService
     ) {
         this.contactMessageRepository = contactMessageRepository;
+        this.contactNotificationService = contactNotificationService;
     }
 
     public boolean isContactRequestValid(ContactRequestDto request) {
@@ -55,6 +58,12 @@ public class ContactService {
         );
 
         contactMessageRepository.save(contactMessage);
+
+        contactNotificationService.sendNewContactNotification(
+                cleanName,
+                cleanEmail,
+                cleanMessage
+        );
 
         return "Message received from " + cleanName;
     }
