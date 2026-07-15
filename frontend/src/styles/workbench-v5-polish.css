@@ -1,0 +1,397 @@
+/*
+ * Developer Workbench v5
+ * Final interaction, form and accessibility polish
+ */
+
+/* Scroll progress */
+
+.wbScrollProgress {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 2px;
+  pointer-events: none;
+}
+
+.wbScrollProgress > span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background:
+    linear-gradient(
+      90deg,
+      var(--wb-orange),
+      var(--wb-blue)
+    );
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+}
+
+/* Reveal motion only after JavaScript is ready */
+
+html.wbMotionReady .wbRevealTarget {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 520ms ease var(--wb-reveal-delay, 0ms),
+    transform 520ms cubic-bezier(0.2, 0.75, 0.25, 1)
+      var(--wb-reveal-delay, 0ms);
+}
+
+html.wbMotionReady .wbRevealTarget.wbRevealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Anchors and keyboard navigation */
+
+.wbHero,
+.wbSection,
+.wbCaseSection {
+  scroll-margin-top: 24px;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--wb-blue);
+  outline-offset: 4px;
+}
+
+.wbNavLinks a,
+.wbNavAction,
+.wbPrimaryAction,
+.wbTextAction,
+.wbProjectExternal a,
+.wbCaseActions a,
+.wbFooterLinks a,
+.wbProjectTopbar a {
+  transition:
+    color 150ms ease,
+    border-color 150ms ease,
+    opacity 150ms ease;
+}
+
+/* Controlled hover feedback */
+
+@media (hover: hover) and (pointer: fine) {
+  .wbTopologyStep article {
+    transition:
+      transform 170ms ease,
+      border-color 170ms ease,
+      background 170ms ease;
+  }
+
+  .wbTopologyStep article:hover {
+    border-color: rgba(120, 168, 255, 0.55);
+    background: rgba(120, 168, 255, 0.055);
+    transform: translateX(3px);
+  }
+
+  .wbProjectRow {
+    transition:
+      background 180ms ease,
+      box-shadow 180ms ease;
+  }
+
+  .wbProjectRow:hover {
+    background: rgba(241, 240, 235, 0.025);
+  }
+
+  .wbProjectFeatured:hover {
+    background:
+      linear-gradient(
+        90deg,
+        rgba(120, 168, 255, 0.13),
+        rgba(120, 168, 255, 0.02) 68%
+      );
+  }
+
+  .wbProjectRow:hover .wbProjectOpen {
+    transform: translate(3px, -3px);
+  }
+
+  .wbProcessTrack article {
+    transition: background 170ms ease;
+  }
+
+  .wbProcessTrack article:hover {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(120, 168, 255, 0.04),
+        transparent 76%
+      );
+  }
+
+  .wbProcessTrack article:hover .wbProcessNode {
+    border-color: var(--wb-orange);
+    background: var(--wb-orange);
+  }
+
+  .wbStackTable article {
+    transition:
+      background 170ms ease,
+      box-shadow 170ms ease;
+  }
+
+  .wbStackTable article:hover {
+    background: rgba(120, 168, 255, 0.045);
+    box-shadow: inset 2px 0 0 var(--wb-blue);
+  }
+
+  .wbCaseNav a:hover {
+    color: var(--wb-text);
+  }
+
+  .wbCaseList li {
+    transition:
+      background 160ms ease,
+      padding 160ms ease;
+  }
+
+  .wbCaseList li:hover {
+    padding-right: 8px;
+    padding-left: 8px;
+    background: rgba(241, 240, 235, 0.025);
+  }
+}
+
+/* Loading and error states */
+
+.wbRequestState,
+.wbProjectState {
+  position: relative;
+  overflow: hidden;
+}
+
+.wbRequestState::after,
+.wbProjectState:not(.wbProjectStateError)::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--wb-blue),
+      transparent
+    );
+  transform: translateX(-100%);
+  animation: wbRequestScan 1.8s ease-in-out infinite;
+}
+
+.wbErrorState,
+.wbProjectStateError {
+  border-left: 3px solid var(--wb-red);
+  padding-left: 16px;
+}
+
+.backendStatus.checking .backendDot {
+  animation: wbStatusPulse 1.2s ease-in-out infinite;
+}
+
+/* Contact validation */
+
+.contactField {
+  position: relative;
+}
+
+.contactField input,
+.contactField textarea {
+  transition:
+    border-color 150ms ease,
+    background 150ms ease;
+}
+
+.contactField input:hover,
+.contactField textarea:hover {
+  border-color: rgba(241, 240, 235, 0.55);
+}
+
+.contactField.hasError input,
+.contactField.hasError textarea {
+  border-color: var(--wb-red);
+  background:
+    linear-gradient(
+      180deg,
+      transparent,
+      rgba(255, 112, 112, 0.035)
+    );
+}
+
+.contactFieldError {
+  margin: 1px 0 0 !important;
+  color: var(--wb-red) !important;
+  font-family: var(--wb-mono);
+  font-size: 8px !important;
+  line-height: 1.5;
+}
+
+.contactFieldMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: start;
+}
+
+.contactFieldMeta .contactCharacterCount {
+  flex: 0 0 auto;
+}
+
+.contactSubmitButton {
+  display: inline-flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+  transition:
+    background 160ms ease,
+    color 160ms ease,
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+
+.contactSubmitButton:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.contactSubmitButton:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
+.contactButtonSpinner {
+  width: 12px;
+  height: 12px;
+  border: 1px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: wbSpin 650ms linear infinite;
+}
+
+.contactFeedback {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 12px 14px !important;
+  border-left: 3px solid currentColor;
+  background: rgba(241, 240, 235, 0.035);
+  line-height: 1.55;
+}
+
+.contactFeedback > span {
+  flex: 0 0 auto;
+  font-weight: 700;
+}
+
+.contactFeedback.success {
+  color: var(--wb-green) !important;
+}
+
+.contactFeedback.error {
+  color: var(--wb-red) !important;
+}
+
+/* Better touch targets without changing desktop composition */
+
+@media (max-width: 760px) {
+  .wbNavLinks a,
+  .wbProjectTopbar a,
+  .wbFooterLinks a,
+  .wbCaseNav a {
+    min-height: 36px;
+    align-items: center;
+  }
+
+  .wbPrimaryAction,
+  .wbTextAction,
+  .wbProjectExternal a,
+  .wbCaseActions a {
+    min-height: 40px;
+    align-items: center;
+  }
+
+  .contactFieldMeta {
+    gap: 10px;
+  }
+
+  .contactFieldError {
+    max-width: 72%;
+  }
+
+  html.wbMotionReady .wbRevealTarget {
+    transform: translateY(12px);
+  }
+}
+
+/* Windows high-contrast support */
+
+@media (forced-colors: active) {
+  .wbScrollProgress > span,
+  .backendDot,
+  .wbProcessNode,
+  .wbRequestState > span,
+  .wbProjectState > span {
+    forced-color-adjust: none;
+  }
+
+  .contactField.hasError input,
+  .contactField.hasError textarea {
+    outline: 2px solid Mark;
+  }
+}
+
+@keyframes wbRequestScan {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  55%,
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes wbStatusPulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes wbSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.wbMotionReady .wbRevealTarget,
+  html.wbMotionReady .wbRevealTarget.wbRevealed {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .wbRequestState::after,
+  .wbProjectState:not(.wbProjectStateError)::after,
+  .backendStatus.checking .backendDot,
+  .contactButtonSpinner {
+    animation: none;
+  }
+
+  .wbScrollProgress {
+    display: none;
+  }
+}
