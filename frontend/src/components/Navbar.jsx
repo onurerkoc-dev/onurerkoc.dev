@@ -1,32 +1,50 @@
 function Navbar() {
-    return (
-        <nav className="navbar" aria-label="Main navigation">
-            <a
-                className="brand"
-                href="#top"
-                aria-label="Go to the top of the page"
-            >
-                <span className="brandMark">OE</span>
+  return (
+    <nav
+      className="wbNav"
+      aria-label="Main navigation"
+    >
+      <a
+        className="wbBrand"
+        href="#top"
+        aria-label="Go to the top of the page"
+      >
+        <span className="wbBrandMark">OE</span>
 
-                <span className="brandIdentity">
+        <span className="wbBrandCopy">
           <strong>Onur Erkoç</strong>
-          <small>Backend engineering journal</small>
+          <small>backend / systems / production</small>
         </span>
-            </a>
+      </a>
 
-            <div className="navLinks">
-                <a href="#about">about</a>
-                <a href="#work">projects</a>
-                <a href="#stack">stack</a>
-                <a href="#contact">contact</a>
-            </div>
+      <div className="wbNavLinks">
+        <a href="#work">
+          <span>01</span>
+          work
+        </a>
 
-            <a className="navAvailability" href="#contact">
-                <span />
-                Open to opportunities
-            </a>
-        </nav>
-    )
+        <a href="#process">
+          <span>02</span>
+          process
+        </a>
+
+        <a href="#stack">
+          <span>03</span>
+          stack
+        </a>
+
+        <a href="#contact">
+          <span>04</span>
+          contact
+        </a>
+      </div>
+
+      <a className="wbNavAction" href="#contact">
+        open channel
+        <span aria-hidden="true">↘</span>
+      </a>
+    </nav>
+  )
 }
 
 export default Navbar

@@ -1,24 +1,22 @@
 import { Route, Routes } from 'react-router'
-import './App.css'
-import './styles/site-v2.css'
+import './styles/workbench-v5.css'
 import HomePage from './pages/HomePage'
 import ProjectDetailPage from './pages/ProjectDetailPage'
 import NotFoundPage from './pages/NotFoundPage'
 
-
 function App() {
-    return (
-        <Routes>
-            <Route path="/" element={<HomePage />} />
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
 
-            <Route
-                path="/projects/:slug"
-                element={<ProjectDetailPage />}
-            />
+      <Route
+        path="/projects/:slug"
+        element={<ProjectDetailPage />}
+      />
 
-            <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-    )
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
+  )
 }
 
 export default App

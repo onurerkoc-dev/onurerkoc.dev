@@ -1,32 +1,58 @@
 function SiteFooter() {
-    const currentYear = new Date().getFullYear()
+  const currentYear = new Date().getFullYear()
 
-    return (
-        <footer className="siteFooter">
-            <div>
-                <strong>Onur Erkoç</strong>
+  return (
+    <footer className="wbFooter">
+      <div className="wbFooterMain">
+        <div>
+          <span className="wbFooterLabel">
+            onurerkoc.dev
+          </span>
 
-                <p>
-                    Software Engineering student building backend and
-                    production-focused systems.
-                </p>
-            </div>
+          <strong>
+            Build clearly.
+            <br />
+            Ship responsibly.
+          </strong>
+        </div>
 
-            <div className="siteFooterMeta">
-                <a
-                    href="https://github.com/onurerkoc-dev"
-                    target="_blank"
-                    rel="noreferrer"
-                >
-                    GitHub ↗
-                </a>
+        <div className="wbFooterMeta">
+          <div>
+            <span>location</span>
+            <strong>İstanbul, Türkiye</strong>
+          </div>
 
-                <a href="#top">Back to top ↑</a>
+          <div>
+            <span>focus</span>
+            <strong>Backend engineering</strong>
+          </div>
 
-                <span>© {currentYear}</span>
-            </div>
-        </footer>
-    )
+          <div>
+            <span>status</span>
+            <strong>Open to opportunities</strong>
+          </div>
+        </div>
+
+        <div className="wbFooterLinks">
+          <a
+            href="https://github.com/onurerkoc-dev"
+            target="_blank"
+            rel="noreferrer"
+          >
+            GitHub ↗
+          </a>
+
+          <a href="#contact">Contact ↘</a>
+          <a href="#top">Back to top ↑</a>
+        </div>
+      </div>
+
+      <div className="wbFooterBottom">
+        <span>© {currentYear} Onur Erkoç</span>
+        <span>production system / v1</span>
+      </div>
+    </footer>
+  )
 }
 
 export default SiteFooter

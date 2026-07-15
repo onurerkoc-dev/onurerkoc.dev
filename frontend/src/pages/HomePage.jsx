@@ -1,157 +1,183 @@
 import Hero from '../components/Hero'
 import Navbar from '../components/Navbar'
 import ProjectsSection from '../components/ProjectsSection'
-import Section from '../components/Section'
 import StackList from '../components/StackList'
 import ContactForm from '../components/ContactForm'
 import Seo from '../components/Seo'
 import SiteFooter from '../components/SiteFooter'
 
 const homeTitle =
-    'Onur Erkoç | Java & Spring Boot Backend Developer'
+  'Onur Erkoç | Java & Spring Boot Backend Developer'
 
 const homeDescription =
-    'Software Engineering student Onur Erkoç builds backend and full-stack projects with Java, Spring Boot, React, PostgreSQL, Docker, and Linux.'
+  'Software Engineering student Onur Erkoç builds backend and full-stack projects with Java, Spring Boot, React, PostgreSQL, Docker, and Linux.'
 
 const homeStructuredData = {
-    '@context': 'https://schema.org',
-    '@graph': [
-        {
-            '@type': 'WebSite',
-            '@id': 'https://onurerkoc.dev/#website',
-            url: 'https://onurerkoc.dev/',
-            name: 'onurerkoc.dev',
-            description: homeDescription,
-            inLanguage: 'en',
-        },
-        {
-            '@type': 'Person',
-            '@id': 'https://onurerkoc.dev/#person',
-            name: 'Onur Erkoç',
-            url: 'https://onurerkoc.dev/',
-            sameAs: [
-                'https://github.com/onurerkoc-dev',
-            ],
-            jobTitle:
-                'Software Engineering Student and Backend Developer',
-            knowsAbout: [
-                'Java',
-                'Spring Boot',
-                'REST APIs',
-                'PostgreSQL',
-                'React',
-                'Docker',
-                'Linux',
-                'Nginx',
-            ],
-        },
-    ],
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': 'https://onurerkoc.dev/#website',
+      url: 'https://onurerkoc.dev/',
+      name: 'onurerkoc.dev',
+      description: homeDescription,
+      inLanguage: 'en',
+    },
+    {
+      '@type': 'Person',
+      '@id': 'https://onurerkoc.dev/#person',
+      name: 'Onur Erkoç',
+      url: 'https://onurerkoc.dev/',
+      sameAs: [
+        'https://github.com/onurerkoc-dev',
+      ],
+      jobTitle:
+        'Software Engineering Student and Backend Developer',
+      knowsAbout: [
+        'Java',
+        'Spring Boot',
+        'REST APIs',
+        'PostgreSQL',
+        'React',
+        'Docker',
+        'Linux',
+        'Nginx',
+      ],
+    },
+  ],
 }
 
+const processSteps = [
+  {
+    number: '01',
+    title: 'Model',
+    detail:
+      'Turn the problem into clear data, boundaries and responsibilities.',
+  },
+  {
+    number: '02',
+    title: 'Connect',
+    detail:
+      'Wire interface, API, persistence and infrastructure together.',
+  },
+  {
+    number: '03',
+    title: 'Ship',
+    detail:
+      'Package the system and move it through a reviewable deployment flow.',
+  },
+  {
+    number: '04',
+    title: 'Verify',
+    detail:
+      'Test the live path and inspect the system after it reaches production.',
+  },
+]
+
 function HomePage() {
-    return (
-        <main className="siteShell">
-            <Seo
-                title={homeTitle}
-                description={homeDescription}
-                path="/"
-                structuredData={homeStructuredData}
-            />
+  return (
+    <main className="wbSite">
+      <Seo
+        title={homeTitle}
+        description={homeDescription}
+        path="/"
+        structuredData={homeStructuredData}
+      />
 
-            <div className="backgroundGrid" />
+      <Navbar />
+      <Hero />
+      <ProjectsSection />
 
-            <Navbar />
+      <section
+        id="process"
+        className="wbSection wbProcess"
+      >
+        <div className="wbSectionRail">
+          <span>02</span>
+          <strong>Build loop</strong>
+        </div>
 
-            <Hero />
+        <div className="wbSectionIntro">
+          <h2>
+            One path from
+            <span>problem to runtime.</span>
+          </h2>
 
-            <Section
-                id="about"
-                tag="01 / approach"
-                title="I learn by shipping complete systems, not isolated demos."
-                className="splitSection aboutV2"
-            >
-                <div className="aboutBody">
-                    <p>
-                        onurerkoc.dev is my engineering workspace. Every feature
-                        moves through the same process used in real software
-                        teams: planning, implementation, testing, pull request,
-                        deployment and production verification.
-                    </p>
+          <p>
+            I use a repeatable engineering loop instead of
+            treating development as disconnected screens and
+            endpoints.
+          </p>
+        </div>
 
-                    <div className="engineeringPrinciples">
-                        <article>
-                            <span>01</span>
+        <div className="wbProcessTrack">
+          {processSteps.map((step) => (
+            <article key={step.number}>
+              <span>{step.number}</span>
+              <div className="wbProcessNode" />
+              <h3>{step.title}</h3>
+              <p>{step.detail}</p>
+            </article>
+          ))}
+        </div>
+      </section>
 
-                            <div>
-                                <h3>Build the complete flow</h3>
-                                <p>
-                                    Frontend, API, database and infrastructure are
-                                    treated as one connected system.
-                                </p>
-                            </div>
-                        </article>
+      <section id="stack" className="wbSection wbStack">
+        <div className="wbSectionRail">
+          <span>03</span>
+          <strong>System stack</strong>
+        </div>
 
-                        <article>
-                            <span>02</span>
+        <div className="wbSectionIntro">
+          <h2>
+            Tools selected by
+            <span>responsibility.</span>
+          </h2>
 
-                            <div>
-                                <h3>Understand the infrastructure</h3>
-                                <p>
-                                    I deploy and operate the software instead of
-                                    stopping when it works on localhost.
-                                </p>
-                            </div>
-                        </article>
+          <p>
+            The stack is organized by what each tool is
+            responsible for inside the running system.
+          </p>
+        </div>
 
-                        <article>
-                            <span>03</span>
+        <StackList />
+      </section>
 
-                            <div>
-                                <h3>Document engineering decisions</h3>
-                                <p>
-                                    Git history, pull requests and project case studies
-                                    record why each decision was made.
-                                </p>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-            </Section>
+      <section
+        id="contact"
+        className="wbSection wbContact"
+      >
+        <div className="wbSectionRail">
+          <span>04</span>
+          <strong>Open channel</strong>
+        </div>
 
-            <ProjectsSection />
+        <div className="wbContactGrid">
+          <div className="wbContactCopy">
+            <span className="wbContactRoute">
+              POST /api/contact
+            </span>
 
-            <Section
-                id="stack"
-                tag="03 / stack"
-                title="A focused stack for building and operating real systems."
-                className="stackSection"
-            >
-                <StackList />
-            </Section>
+            <h2>
+              Bring a real problem.
+              <span>We can start there.</span>
+            </h2>
 
-            <section
-                id="contact"
-                className="section contactSection"
-            >
-                <p className="sectionTag">04 / contact</p>
+            <p>
+              Backend internship, engineering collaboration
+              or a serious software project.
+            </p>
+          </div>
 
-                <h2>
-                    Open to backend, full-stack and
-                    infrastructure-focused opportunities.
-                </h2>
+          <div className="wbContactForm">
+            <ContactForm />
+          </div>
+        </div>
+      </section>
 
-                <p className="contactIntro">
-                    Send a message through the form. It will be validated,
-                    stored in PostgreSQL and delivered through the Spring Boot
-                    notification system.
-                </p>
-
-                <ContactForm />
-            </section>
-
-            <SiteFooter />
-        </main>
-    )
+      <SiteFooter />
+    </main>
+  )
 }
 
 export default HomePage

@@ -1,90 +1,131 @@
 import BackendStatus from './BackendStatus'
 
+const topologyNodes = [
+  {
+    id: 'client',
+    label: 'client',
+    value: 'React / Vite',
+  },
+  {
+    id: 'edge',
+    label: 'edge',
+    value: 'Nginx / HTTPS',
+  },
+  {
+    id: 'service',
+    label: 'service',
+    value: 'Spring Boot',
+  },
+  {
+    id: 'data',
+    label: 'data',
+    value: 'PostgreSQL',
+  },
+]
+
 function Hero() {
   return (
-      <section id="top" className="hero heroV2">
-        <div className="heroContent">
-          <div className="heroEyebrow">
-            <span>Onur Erkoç</span>
-            <span>Software Engineering · İstanbul</span>
-          </div>
+    <section id="top" className="wbHero">
+      <div className="wbHeroHeader">
+        <span>Engineering workbench / 2026</span>
+        <span>İstanbul, Türkiye</span>
+      </div>
 
-          <h1>
-            I build backend systems and take them all the way to
-            production.
-          </h1>
-
-          <p className="heroText">
-            I am a Software Engineering student focused on Java,
-            Spring Boot and backend development. I use this platform
-            to build complete systems with PostgreSQL, Docker, Linux,
-            REST APIs and real production infrastructure.
+      <div className="wbHeroGrid">
+        <div className="wbHeroCopy">
+          <p className="wbKicker">
+            Software engineering student
           </p>
 
-          <div className="heroActions">
-            <a className="buttonPrimary" href="#work">
-              Explore projects
-            </a>
+          <h1>
+            I build backend systems that survive
+            <span>beyond localhost.</span>
+          </h1>
 
-            <a className="buttonGhost" href="#contact">
-              Contact me
+          <p className="wbHeroLead">
+            Java, Spring Boot, PostgreSQL and Docker—
+            connected as one production system, not a pile
+            of isolated demos.
+          </p>
+
+          <div className="wbHeroActions">
+            <a className="wbPrimaryAction" href="#work">
+              inspect selected work
+              <span aria-hidden="true">→</span>
             </a>
 
             <a
-                className="heroTextLink"
-                href="https://github.com/onurerkoc-dev"
-                target="_blank"
-                rel="noreferrer"
+              className="wbTextAction"
+              href="https://github.com/onurerkoc-dev"
+              target="_blank"
+              rel="noreferrer"
             >
-              GitHub ↗
+              github ↗
             </a>
           </div>
-
-          <p className="heroNote">
-            Currently learning Spring Boot architecture, PostgreSQL,
-            Docker and distributed backend systems.
-          </p>
         </div>
 
         <aside
-            className="heroRail"
-            aria-label="Current engineering focus"
+          className="wbTopology"
+          aria-label="Production system topology"
         >
-          <div className="heroRailHeader">
-            <span>Current engineering focus</span>
-            <span>2026</span>
+          <div className="wbPanelHeader">
+            <span>system topology</span>
+            <span>live</span>
           </div>
 
-          <dl className="heroFacts">
-            <div>
-              <dt>Primary stack</dt>
-              <dd>Java · Spring Boot</dd>
-            </div>
+          <div className="wbTopologyFlow">
+            {topologyNodes.map((node, index) => (
+              <div className="wbTopologyStep" key={node.id}>
+                <article>
+                  <span>{node.label}</span>
+                  <strong>{node.value}</strong>
+                </article>
 
-            <div>
-              <dt>Database</dt>
-              <dd>PostgreSQL</dd>
-            </div>
+                {index < topologyNodes.length - 1 && (
+                  <span
+                    className="wbTopologyConnector"
+                    aria-hidden="true"
+                  >
+                    ↓
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
 
-            <div>
-              <dt>Infrastructure</dt>
-              <dd>Docker · Linux · Nginx</dd>
-            </div>
+          <div className="wbTopologyStatus">
+            <span className="wbStatusLabel">
+              runtime check
+            </span>
 
-            <div>
-              <dt>Direction</dt>
-              <dd>Backend · Cloud · Distributed systems</dd>
-            </div>
-
-            <div>
-              <dt>Current project</dt>
-              <dd>onurerkoc.dev</dd>
-            </div>
-          </dl>
-
-          <BackendStatus />
+            <BackendStatus />
+          </div>
         </aside>
-      </section>
+      </div>
+
+      <div className="wbHeroMetrics">
+        <div>
+          <span>primary stack</span>
+          <strong>Java / Spring Boot</strong>
+        </div>
+
+        <div>
+          <span>data layer</span>
+          <strong>PostgreSQL / JPA</strong>
+        </div>
+
+        <div>
+          <span>delivery</span>
+          <strong>Docker / Linux / Nginx</strong>
+        </div>
+
+        <div>
+          <span>current build</span>
+          <strong>onurerkoc.dev</strong>
+        </div>
+      </div>
+    </section>
   )
 }
 
