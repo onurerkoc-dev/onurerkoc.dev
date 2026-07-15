@@ -1,0 +1,410 @@
+:root {
+    --content-width: 1240px;
+}
+
+.siteShell {
+    background:
+            radial-gradient(
+                    circle at 78% 4%,
+                    rgba(215, 255, 100, 0.055),
+                    transparent 25%
+            ),
+            linear-gradient(
+                    to bottom,
+                    rgba(255, 255, 255, 0.015),
+                    transparent 22%
+            ),
+            var(--bg);
+}
+
+.backgroundGrid {
+    opacity: 0.14;
+    background-size: 128px 128px;
+}
+
+.navbar {
+    width: min(
+            var(--content-width),
+            calc(100% - 48px)
+    );
+    padding: 22px 0;
+    gap: 32px;
+}
+
+.brandIdentity {
+    display: grid;
+    gap: 2px;
+}
+
+.brandIdentity strong {
+    font-size: 14px;
+    letter-spacing: -0.02em;
+}
+
+.brandIdentity small {
+    color: var(--faint);
+    font-family:
+            "JetBrains Mono",
+            "Fira Code",
+            Consolas,
+            monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0;
+}
+
+.navAvailability {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--muted);
+    text-decoration: none;
+    font-family:
+            "JetBrains Mono",
+            "Fira Code",
+            Consolas,
+            monospace;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.navAvailability span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 16px rgba(215, 255, 100, 0.7);
+}
+
+.navAvailability:hover {
+    color: var(--accent);
+}
+
+.hero.heroV2 {
+    width: min(
+            var(--content-width),
+            calc(100% - 48px)
+    );
+    grid-template-columns:
+    minmax(0, 1fr)
+    minmax(290px, 340px);
+    gap: clamp(48px, 8vw, 112px);
+    padding: 112px 0 136px;
+    align-items: end;
+}
+
+.heroEyebrow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 24px;
+    color: var(--accent);
+    font-family:
+            "JetBrains Mono",
+            "Fira Code",
+            Consolas,
+            monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.heroEyebrow span + span {
+    color: var(--faint);
+}
+
+.heroV2 h1 {
+    max-width: 940px;
+    margin: 24px 0 30px;
+    font-size: clamp(54px, 7.4vw, 108px);
+    line-height: 0.9;
+    letter-spacing: -0.088em;
+}
+
+.heroV2 .heroText {
+    max-width: 720px;
+    font-size: clamp(17px, 1.7vw, 20px);
+    line-height: 1.75;
+}
+
+.heroV2 .heroActions {
+    align-items: center;
+    margin-top: 38px;
+}
+
+.heroTextLink {
+    padding: 10px 4px;
+    color: var(--muted);
+    text-decoration: none;
+    font-family:
+            "JetBrains Mono",
+            "Fira Code",
+            Consolas,
+            monospace;
+    font-size: 12px;
+}
+
+.heroTextLink:hover {
+    color: var(--accent);
+}
+
+.heroNote {
+    max-width: 690px;
+    margin: 28px 0 0;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    color: var(--faint);
+    font-family:
+            "JetBrains Mono",
+            "Fira Code",
+            Consolas,
+            monospace;
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+.heroRail {
+    border-left: 1px solid var(--line-strong);
+    padding-left: 26px;
+}
+
+.heroRailHeader {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--line);
+    color: var(--faint);
+    font-family:
+            "JetBrains Mono",
+            "Fira Code",
+            Consolas,
+            monospace;
+    font-size: 10px;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+}
+
+.heroFacts {
+    margin: 0;
+}
+
+.heroFacts > div {
+    display: grid;
+    grid-template-columns: 112px 1fr;
+    gap: 18px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.heroFacts dt {
+    color: var(--faint);
+    font-family:
+            "JetBrains Mono",
+            "Fira Code",
+            Consolas,
+            monospace;
+    font-size: 10px;
+}
+
+.heroFacts dd {
+    margin: 0;
+    color: var(--text);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.heroRail .backendStatus {
+    margin-top: 20px;
+}
+
+.section {
+    width: min(
+            var(--content-width),
+            calc(100% - 48px)
+    );
+}
+
+.aboutV2 {
+    grid-template-columns:
+    minmax(280px, 0.8fr)
+    minmax(0, 1.2fr);
+    align-items: start;
+}
+
+.aboutBody > p {
+    max-width: 720px;
+}
+
+.engineeringPrinciples {
+    margin-top: 42px;
+    border-top: 1px solid var(--line-strong);
+}
+
+.engineeringPrinciples article {
+    display: grid;
+    grid-template-columns: 54px 1fr;
+    gap: 20px;
+    padding: 25px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.engineeringPrinciples article > span {
+    color: var(--accent);
+    font-family:
+            "JetBrains Mono",
+            "Fira Code",
+            Consolas,
+            monospace;
+    font-size: 11px;
+}
+
+.engineeringPrinciples h3 {
+    margin: 0 0 9px;
+    font-size: 20px;
+    letter-spacing: -0.035em;
+}
+
+.engineeringPrinciples p {
+    max-width: 620px;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+.siteFooter {
+    position: relative;
+    z-index: 1;
+    width: min(
+            var(--content-width),
+            calc(100% - 48px)
+    );
+    margin: 0 auto;
+    padding: 34px 0 44px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 40px;
+    border-top: 1px solid var(--line-strong);
+}
+
+.siteFooter strong {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 15px;
+}
+
+.siteFooter p {
+    max-width: 520px;
+    margin: 0;
+    color: var(--faint);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.siteFooterMeta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 18px;
+    color: var(--faint);
+    font-family:
+            "JetBrains Mono",
+            "Fira Code",
+            Consolas,
+            monospace;
+    font-size: 11px;
+}
+
+.siteFooterMeta a {
+    text-decoration: none;
+}
+
+.siteFooterMeta a:hover {
+    color: var(--accent);
+}
+
+@media (max-width: 980px) {
+    .navAvailability {
+        display: none;
+    }
+
+    .hero.heroV2 {
+        grid-template-columns: 1fr;
+        padding-top: 82px;
+    }
+
+    .heroRail {
+        max-width: 680px;
+        border-top: 1px solid var(--line-strong);
+        border-left: 0;
+        padding-top: 26px;
+        padding-left: 0;
+    }
+
+    .aboutV2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 720px) {
+    .navbar,
+    .hero.heroV2,
+    .section,
+    .siteFooter {
+        width: min(100% - 32px, var(--content-width));
+    }
+
+    .navbar {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .brandIdentity small {
+        display: none;
+    }
+
+    .navLinks {
+        width: 100%;
+        justify-content: space-between;
+        gap: 12px;
+        padding-top: 16px;
+        border-top: 1px solid var(--line);
+    }
+
+    .navLinks a {
+        font-size: 11px;
+    }
+
+    .hero.heroV2 {
+        padding: 72px 0 96px;
+    }
+
+    .heroV2 h1 {
+        font-size: clamp(47px, 14vw, 70px);
+    }
+
+    .heroV2 .heroActions {
+        align-items: stretch;
+    }
+
+    .buttonPrimary,
+    .buttonGhost {
+        flex: 1 1 150px;
+    }
+
+    .heroFacts > div {
+        grid-template-columns: 95px 1fr;
+    }
+
+    .engineeringPrinciples article {
+        grid-template-columns: 38px 1fr;
+    }
+
+    .siteFooter {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .siteFooterMeta {
+        justify-content: flex-start;
+    }
+}

@@ -5,6 +5,7 @@ import Section from '../components/Section'
 import StackList from '../components/StackList'
 import ContactForm from '../components/ContactForm'
 import Seo from '../components/Seo'
+import SiteFooter from '../components/SiteFooter'
 
 const homeTitle =
     'Onur Erkoç | Java & Spring Boot Backend Developer'
@@ -65,16 +66,56 @@ function HomePage() {
 
             <Section
                 id="about"
-                tag="01 / about"
-                title="Not a template portfolio. A build journal."
-                className="splitSection"
+                tag="01 / approach"
+                title="I learn by shipping complete systems, not isolated demos."
+                className="splitSection aboutV2"
             >
-                <p>
-                    This site is my personal full-stack lab. I use it to
-                    practice real developer workflow: Git branches, pull
-                    requests, REST APIs, server setup, Docker, deployment
-                    and production thinking.
-                </p>
+                <div className="aboutBody">
+                    <p>
+                        onurerkoc.dev is my engineering workspace. Every feature
+                        moves through the same process used in real software
+                        teams: planning, implementation, testing, pull request,
+                        deployment and production verification.
+                    </p>
+
+                    <div className="engineeringPrinciples">
+                        <article>
+                            <span>01</span>
+
+                            <div>
+                                <h3>Build the complete flow</h3>
+                                <p>
+                                    Frontend, API, database and infrastructure are
+                                    treated as one connected system.
+                                </p>
+                            </div>
+                        </article>
+
+                        <article>
+                            <span>02</span>
+
+                            <div>
+                                <h3>Understand the infrastructure</h3>
+                                <p>
+                                    I deploy and operate the software instead of
+                                    stopping when it works on localhost.
+                                </p>
+                            </div>
+                        </article>
+
+                        <article>
+                            <span>03</span>
+
+                            <div>
+                                <h3>Document engineering decisions</h3>
+                                <p>
+                                    Git history, pull requests and project case studies
+                                    record why each decision was made.
+                                </p>
+                            </div>
+                        </article>
+                    </div>
+                </div>
             </Section>
 
             <ProjectsSection />
@@ -82,7 +123,7 @@ function HomePage() {
             <Section
                 id="stack"
                 tag="03 / stack"
-                title="Tools I am using to build this properly."
+                title="A focused stack for building and operating real systems."
                 className="stackSection"
             >
                 <StackList />
@@ -100,12 +141,15 @@ function HomePage() {
                 </h2>
 
                 <p className="contactIntro">
-                    Send a message through the form. The request is
-                    processed by the Spring Boot backend.
+                    Send a message through the form. It will be validated,
+                    stored in PostgreSQL and delivered through the Spring Boot
+                    notification system.
                 </p>
 
                 <ContactForm />
             </section>
+
+            <SiteFooter />
         </main>
     )
 }
