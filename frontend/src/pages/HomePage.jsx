@@ -7,7 +7,7 @@ import Seo from '../components/Seo'
 import SiteFooter from '../components/SiteFooter'
 
 const homeTitle =
-  'Onur Erkoç | Java & Spring Boot Backend Developer'
+  'Onur Erkoç | Software Engineering Portfolio'
 
 const homeDescription =
   'Software Engineering student Onur Erkoç builds backend and full-stack projects with Java, Spring Boot, React, PostgreSQL, Docker, and Linux.'
