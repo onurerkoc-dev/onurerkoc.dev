@@ -1,0 +1,617 @@
+/*
+ * Developer Workbench v5
+ * Mobile overflow and small-screen polish
+ */
+
+html,
+body,
+#root,
+.wbSite {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+.wbHeroCopy,
+.wbTopology,
+.wbSectionIntro > *,
+.wbContactGrid > *,
+.wbProjectContent,
+.wbCaseContent,
+.wbCaseSection,
+.wbFooterMain > *,
+.wbStackTable article > * {
+  min-width: 0;
+}
+
+.wbProjectRoute,
+.wbProjectTopbar > span,
+.wbCaseMeta strong,
+.wbTopologyStep article strong,
+.wbStackTable article p,
+.wbFooterMeta strong {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --wb-gutter: 16px;
+  }
+
+  .wbNav,
+  .wbHero,
+  .wbSection,
+  .wbProjectTopbar,
+  .wbCaseStudy {
+    width: calc(100% - (var(--wb-gutter) * 2));
+  }
+
+  .wbNav {
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 12px;
+    row-gap: 14px;
+    padding-top: 16px;
+  }
+
+  .wbBrand {
+    min-width: 0;
+  }
+
+  .wbBrandMark {
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+  }
+
+  .wbBrandCopy {
+    min-width: 0;
+  }
+
+  .wbBrandCopy strong {
+    display: block;
+    overflow: hidden;
+    font-size: 11px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .wbNavAction {
+    gap: 8px;
+    font-size: 7px;
+    white-space: nowrap;
+  }
+
+  .wbNavLinks {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 22px;
+    padding: 12px 2px 13px;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+  }
+
+  .wbNavLinks::-webkit-scrollbar {
+    display: none;
+  }
+
+  .wbNavLinks a {
+    flex: 0 0 auto;
+    font-size: 8px;
+    white-space: nowrap;
+  }
+
+  .wbHero {
+    padding-top: 18px;
+    padding-bottom: 40px;
+  }
+
+  .wbHeroHeader {
+    gap: 6px;
+    font-size: 7px;
+  }
+
+  .wbHeroGrid {
+    gap: 48px;
+    padding: 62px 0;
+  }
+
+  .wbKicker {
+    margin-bottom: 20px;
+    font-size: 8px;
+  }
+
+  .wbHeroCopy h1 {
+    max-width: 100%;
+    font-size: clamp(44px, 14.5vw, 70px);
+    line-height: 0.9;
+    letter-spacing: -0.055em;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .wbHeroCopy h1 span {
+    margin-top: 4px;
+    margin-left: 2vw;
+  }
+
+  .wbHeroLead {
+    margin-top: 28px;
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  .wbHeroActions {
+    gap: 15px 22px;
+    margin-top: 27px;
+  }
+
+  .wbPrimaryAction,
+  .wbTextAction {
+    font-size: 8px;
+  }
+
+  .wbTopology {
+    max-width: 100%;
+  }
+
+  .wbTopologyFlow {
+    padding: 16px 14px;
+  }
+
+  .wbTopologyStep article {
+    grid-template-columns: 72px minmax(0, 1fr);
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .wbTopologyStep article strong {
+    font-size: 11px;
+  }
+
+  .wbTopologyStatus {
+    padding: 15px 14px;
+  }
+
+  .wbHeroMetrics > div {
+    min-width: 0;
+    padding: 13px;
+  }
+
+  .wbHeroMetrics strong {
+    display: block;
+    overflow-wrap: anywhere;
+    font-size: 10px;
+    line-height: 1.45;
+  }
+
+  .wbSection {
+    padding: 78px 0;
+  }
+
+  .wbSectionRail {
+    grid-template-columns: 34px 1fr;
+    margin-bottom: 37px;
+  }
+
+  .wbSectionIntro {
+    gap: 25px;
+  }
+
+  .wbSectionIntro h2,
+  .wbContactCopy h2 {
+    max-width: 100%;
+    font-size: clamp(40px, 12.7vw, 62px);
+    line-height: 0.92;
+    letter-spacing: -0.05em;
+    overflow-wrap: normal;
+  }
+
+  .wbSectionIntro > p,
+  .wbContactCopy p {
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  .wbRepository {
+    margin-top: 48px;
+  }
+
+  .wbRepositoryHeader {
+    padding: 12px;
+  }
+
+  .wbProjectRow {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 24px 12px;
+  }
+
+  .wbProjectNumber {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: baseline;
+  }
+
+  .wbProjectNumber small {
+    text-align: right;
+  }
+
+  .wbProjectContent header {
+    gap: 14px;
+  }
+
+  .wbProjectRoute {
+    max-width: 100%;
+    font-size: 7px;
+    line-height: 1.5;
+  }
+
+  .wbProjectContent h3 {
+    max-width: 100%;
+    font-size: clamp(29px, 10vw, 44px);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    overflow-wrap: anywhere;
+  }
+
+  .wbProjectSummary {
+    margin-top: 18px;
+    font-size: 16px;
+  }
+
+  .wbProjectDescription {
+    font-size: 13px;
+  }
+
+  .wbProjectContent footer {
+    width: 100%;
+    gap: 18px;
+  }
+
+  .wbProjectStack {
+    max-width: 100%;
+    font-size: 7px;
+    line-height: 1.7;
+  }
+
+  .wbProjectExternal {
+    flex-wrap: wrap;
+  }
+
+  .wbProcessTrack {
+    margin-top: 52px;
+  }
+
+  .wbProcessTrack article,
+  .wbProcessTrack article:not(:first-child) {
+    padding: 22px 0;
+  }
+
+  .wbProcessTrack h3 {
+    margin-top: 30px;
+    font-size: 25px;
+  }
+
+  .wbStackTable {
+    margin-top: 50px;
+    border: 0;
+  }
+
+  .wbStackTable article {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 7px;
+    margin-bottom: 12px;
+    padding: 17px 16px;
+    border: 1px solid var(--wb-line);
+    border-left: 3px solid var(--wb-blue);
+    background: var(--wb-surface);
+  }
+
+  .wbStackTable article:last-child {
+    border-bottom: 1px solid var(--wb-line);
+  }
+
+  .wbStackTable article > span {
+    font-size: 7px;
+  }
+
+  .wbStackTable article strong {
+    font-size: 14px;
+  }
+
+  .wbStackTable article p {
+    grid-column: auto;
+    margin-top: 3px;
+    font-size: 12px;
+  }
+
+  .wbContactGrid {
+    gap: 44px;
+  }
+
+  .wbContactForm {
+    width: 100%;
+    padding: 18px;
+  }
+
+  .wbContactForm .contactField,
+  .wbContactForm input,
+  .wbContactForm textarea {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .wbFooter {
+    padding:
+      65px
+      var(--wb-gutter)
+      24px;
+  }
+
+  .wbFooterMain {
+    gap: 38px;
+  }
+
+  .wbFooterMain > div:first-child > strong {
+    display: block;
+    max-width: 100%;
+    font-size: clamp(28px, 9vw, 43px);
+    line-height: 1;
+  }
+
+  .wbFooterLinks {
+    gap: 11px;
+  }
+
+  .wbFooterBottom {
+    gap: 9px;
+    margin-top: 44px;
+  }
+
+  .wbProjectTopbar {
+    min-height: 62px;
+    gap: 12px;
+    font-size: 7px;
+  }
+
+  .wbProjectTopbar a {
+    min-width: 0;
+    white-space: nowrap;
+  }
+
+  .wbCaseStudy {
+    padding-top: 54px;
+    padding-bottom: 90px;
+  }
+
+  .wbCaseHero {
+    padding-bottom: 52px;
+  }
+
+  .wbCaseOverline {
+    flex-wrap: wrap;
+    font-size: 7px;
+  }
+
+  .wbCaseHero h1 {
+    max-width: 100%;
+    margin-top: 30px;
+    font-size: clamp(40px, 13vw, 68px);
+    line-height: 0.9;
+    letter-spacing: -0.05em;
+    overflow-wrap: anywhere;
+  }
+
+  .wbCaseHero > p {
+    margin-top: 27px;
+    font-size: 17px;
+  }
+
+  .wbCaseMeta {
+    margin-top: 38px;
+  }
+
+  .wbCaseMeta > div {
+    padding: 13px;
+  }
+
+  .wbCaseMeta strong {
+    line-height: 1.45;
+  }
+
+  .wbCaseStack {
+    font-size: 7px;
+    line-height: 1.7;
+  }
+
+  .wbCaseLayout {
+    gap: 45px;
+    margin-top: 52px;
+  }
+
+  .wbCaseNav nav {
+    gap: 0;
+  }
+
+  .wbCaseNav a {
+    min-width: 0;
+    grid-template-columns: 23px minmax(0, 1fr);
+    gap: 7px;
+    padding: 11px 4px;
+    overflow-wrap: anywhere;
+  }
+
+  .wbCaseSection {
+    padding: 42px 0;
+  }
+
+  .wbCaseSectionTitle {
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 12px;
+    margin-bottom: 26px;
+  }
+
+  .wbCaseSection h2 {
+    font-size: clamp(29px, 10vw, 43px);
+    line-height: 0.98;
+    overflow-wrap: anywhere;
+  }
+
+  .wbCaseSection > p,
+  .wbArchitectureNote p {
+    font-size: 14px;
+    line-height: 1.72;
+  }
+
+  .wbCaseLead {
+    font-size: 18px !important;
+  }
+
+  .wbArchitectureNote {
+    padding: 18px;
+  }
+
+  .wbArchitectureFlow {
+    gap: 8px;
+  }
+
+  .wbArchitectureFlow span {
+    width: 100%;
+  }
+
+  .wbCaseList li {
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 11px;
+  }
+
+  .wbCasePagination {
+    gap: 32px;
+    margin-top: 55px;
+  }
+
+  .wbCasePagination a strong {
+    font-size: 20px;
+    overflow-wrap: anywhere;
+  }
+
+  .wbNotFound h1 {
+    font-size: clamp(43px, 15vw, 70px);
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 430px) {
+  :root {
+    --wb-gutter: 14px;
+  }
+
+  .wbNavAction {
+    display: none;
+  }
+
+  .wbNav {
+    grid-template-columns: 1fr;
+  }
+
+  .wbNavLinks {
+    grid-column: 1;
+    gap: 18px;
+  }
+
+  .wbHeroGrid {
+    padding: 54px 0;
+  }
+
+  .wbHeroCopy h1 {
+    font-size: clamp(40px, 13.8vw, 59px);
+    letter-spacing: -0.045em;
+  }
+
+  .wbHeroCopy h1 span {
+    margin-left: 0;
+  }
+
+  .wbHeroActions {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .wbTopologyStep article {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+
+  .wbHeroMetrics {
+    grid-template-columns: 1fr;
+  }
+
+  .wbHeroMetrics > div,
+  .wbHeroMetrics > div:nth-child(2) {
+    border-right: 0;
+  }
+
+  .wbHeroMetrics > div:not(:first-child) {
+    border-top: 1px solid var(--wb-line);
+  }
+
+  .wbSectionIntro h2,
+  .wbContactCopy h2 {
+    font-size: clamp(37px, 12.5vw, 52px);
+  }
+
+  .wbProjectContent h3 {
+    font-size: clamp(27px, 9.8vw, 39px);
+  }
+
+  .wbProjectContent header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .wbProjectStatus {
+    margin-top: 0;
+  }
+
+  .wbProjectTopbar a:last-child {
+    font-size: 0;
+  }
+
+  .wbProjectTopbar a:last-child::after {
+    content: "GH ↗";
+    font-size: 7px;
+  }
+
+  .wbCaseNav nav {
+    grid-template-columns: 1fr;
+  }
+
+  .wbCaseHero h1 {
+    font-size: clamp(37px, 12vw, 54px);
+  }
+
+  .wbCaseSectionTitle {
+    grid-template-columns: 27px minmax(0, 1fr);
+  }
+
+  .wbFooterMain > div:first-child > strong {
+    font-size: clamp(27px, 9vw, 38px);
+  }
+}
+
+@supports not (overflow: clip) {
+  html,
+  body,
+  #root,
+  .wbSite {
+    overflow-x: hidden;
+  }
+}
