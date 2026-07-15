@@ -1,122 +1,100 @@
 import { Link } from 'react-router'
 
 function WorkCard({
-                    number,
-                    title,
-                    type,
-                    summary,
-                    description,
-                    techStack = [],
-                    status,
-                    githubUrl,
-                    liveUrl,
-                    featured,
-                    slug,
-                  }) {
-  const visibleTechnologies = techStack.slice(0, 6)
-  const hiddenTechnologyCount =
-      techStack.length - visibleTechnologies.length
-
+  number,
+  title,
+  type,
+  summary,
+  description,
+  techStack = [],
+  status,
+  githubUrl,
+  liveUrl,
+  featured,
+  slug,
+}) {
   return (
-      <article
-          className={[
-            'workItem',
-            'workItemV2',
-            featured ? 'featuredWorkItem' : '',
-          ]
-              .filter(Boolean)
-              .join(' ')}
-      >
-        <div className="workItemIndexColumn">
-          <span className="workItemIndex">{number}</span>
+    <article
+      className={[
+        'wbProjectRow',
+        featured ? 'wbProjectFeatured' : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
+    >
+      <div className="wbProjectNumber">
+        <span>{number}</span>
+        <small>{featured ? 'active build' : type}</small>
+      </div>
 
-          {featured && (
-              <span className="featuredIndicator">
-            Featured
-          </span>
-          )}
-        </div>
+      <div className="wbProjectContent">
+        <header>
+          <div>
+            <p className="wbProjectRoute">
+              /projects/{slug}
+            </p>
 
-        <div className="workItemMain">
-          <header className="workItemHeader">
-            <div>
-              <p className="workItemType">
-                {featured
-                    ? 'Featured case study'
-                    : 'Engineering case study'}
-                <span> · </span>
-                {type}
-              </p>
-
-              <h3>
-                <Link to={`/projects/${slug}`}>
-                  {title}
-                </Link>
-              </h3>
-            </div>
-
-            <span className="workItemStatus">
-            <span />
-              {status}
-          </span>
-          </header>
-
-          <p className="workItemSummary">{summary}</p>
-
-          {featured && description && (
-              <p className="workItemDescription">
-                {description}
-              </p>
-          )}
-
-          <div
-              className="techStack projectCardTechStack"
-              aria-label="Project technologies"
-          >
-            {visibleTechnologies.map((technology) => (
-                <span key={technology}>{technology}</span>
-            ))}
-
-            {hiddenTechnologyCount > 0 && (
-                <span>+{hiddenTechnologyCount}</span>
-            )}
+            <h3>
+              <Link to={`/projects/${slug}`}>
+                {title}
+              </Link>
+            </h3>
           </div>
 
-          <footer className="workItemFooter">
-            <Link
-                to={`/projects/${slug}`}
-                className="workItemDetailLink"
-            >
-              Read engineering case study
-              <span aria-hidden="true">→</span>
-            </Link>
+          <span className="wbProjectStatus">
+            {status}
+          </span>
+        </header>
 
-            {(githubUrl || liveUrl) && (
-                <div className="workItemLinks">
-                  {githubUrl && (
-                      <a
-                          href={githubUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                      >
-                        GitHub ↗
-                      </a>
-                  )}
+        <p className="wbProjectSummary">
+          {summary}
+        </p>
 
-                  {liveUrl && (
-                      <a
-                          href={liveUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                      >
-                        Live ↗
-                      </a>
-                  )}
-                </div>
+        {featured && description && (
+          <p className="wbProjectDescription">
+            {description}
+          </p>
+        )}
+
+        <footer>
+          <div className="wbProjectStack">
+            {techStack.map((technology) => (
+              <span key={technology}>{technology}</span>
+            ))}
+          </div>
+
+          <div className="wbProjectExternal">
+            {githubUrl && (
+              <a
+                href={githubUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                source ↗
+              </a>
             )}
-          </footer>
-        </div>
-      </article>
+
+            {liveUrl && (
+              <a
+                href={liveUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                live ↗
+              </a>
+            )}
+          </div>
+        </footer>
+      </div>
+
+      <Link
+        to={`/projects/${slug}`}
+        className="wbProjectOpen"
+        aria-label={`Open ${title} case study`}
+      >
+        ↗
+      </Link>
+    </article>
   )
 }
 

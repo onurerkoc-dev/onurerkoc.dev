@@ -24,7 +24,7 @@ function ProjectsSection() {
         }
 
         setErrorMessage(
-            'Projects API is unavailable right now.'
+          'Projects API is unavailable right now.'
         )
         setStatus('error')
       }
@@ -38,80 +38,70 @@ function ProjectsSection() {
   }, [])
 
   const sortedProjects = [...projects].sort(
-      (firstProject, secondProject) =>
-          Number(secondProject.featured) -
-          Number(firstProject.featured)
+    (firstProject, secondProject) =>
+      Number(secondProject.featured) -
+      Number(firstProject.featured)
   )
 
   return (
-      <section
-          id="work"
-          className="section projectsSectionV2"
-      >
-        <div className="projectsSectionHeader">
-          <div>
-            <p className="sectionTag">
-              02 / engineering work
-            </p>
+    <section id="work" className="wbSection wbProjects">
+      <div className="wbSectionRail">
+        <span>01</span>
+        <strong>Selected work</strong>
+      </div>
 
-            <h2>
-              Projects built as complete engineering systems.
-            </h2>
+      <div className="wbSectionIntro">
+        <h2>
+          Systems with
+          <span>traceable decisions.</span>
+        </h2>
 
-            <p className="projectsIntro">
-              Each project documents the problem, system
-              architecture, technical decisions and the next stage
-              of development.
-            </p>
+        <p>
+          Every project exposes the problem, architecture,
+          trade-offs and next steps—not only the final screen.
+        </p>
+      </div>
+
+      {status === 'loading' && (
+        <div className="wbRequestState">
+          <span />
+          GET /api/projects
+        </div>
+      )}
+
+      {status === 'error' && (
+        <div className="wbErrorState">
+          <strong>{errorMessage}</strong>
+          <span>The remaining interface is still available.</span>
+        </div>
+      )}
+
+      {status === 'success' && (
+        <div className="wbRepository">
+          <div className="wbRepositoryHeader">
+            <span>repository</span>
+            <span>{projects.length} entries</span>
           </div>
 
-          {status === 'success' && (
-              <span className="projectCount">
-            {projects.length}{' '}
-                {projects.length === 1
-                    ? 'case study'
-                    : 'case studies'}
-          </span>
-          )}
+          {sortedProjects.map((project, index) => (
+            <WorkCard
+              key={project.id}
+              number={String(index + 1).padStart(2, '0')}
+              title={project.title}
+              type={project.type}
+              summary={project.summary}
+              description={project.description}
+              techStack={project.techStack}
+              status={project.status}
+              githubUrl={project.githubUrl}
+              liveUrl={project.liveUrl}
+              featured={project.featured}
+              slug={project.slug}
+            />
+          ))}
         </div>
-
-        {status === 'loading' && (
-            <div className="projectsLoadingState">
-              <span />
-              <p>Loading projects from the Spring Boot API...</p>
-            </div>
-        )}
-
-        {status === 'error' && (
-            <div className="projectsErrorState">
-              <p className="sectionError">{errorMessage}</p>
-              <span>
-            The rest of the portfolio remains available.
-          </span>
-            </div>
-        )}
-
-        {status === 'success' && (
-            <div className="workGrid workGridV2">
-              {sortedProjects.map((project, index) => (
-                  <WorkCard
-                      key={project.id}
-                      number={String(index + 1).padStart(2, '0')}
-                      title={project.title}
-                      type={project.type}
-                      summary={project.summary}
-                      description={project.description}
-                      techStack={project.techStack}
-                      status={project.status}
-                      githubUrl={project.githubUrl}
-                      liveUrl={project.liveUrl}
-                      featured={project.featured}
-                      slug={project.slug}
-                  />
-              ))}
-            </div>
-        )}
-      </section>
+      )}
+    </section>
   )
 }
 

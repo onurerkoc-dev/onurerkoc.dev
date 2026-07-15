@@ -2,35 +2,26 @@ import { Link } from 'react-router'
 import Seo from '../components/Seo'
 
 function NotFoundPage() {
-    return (
-        <main className="siteShell">
-            <Seo
-                title="Page Not Found | Onur Erkoç"
-                description="The requested page could not be found on onurerkoc.dev."
-                path={window.location.pathname}
-                robots="noindex, nofollow"
-            />
+  return (
+    <main className="wbSite wbNotFound">
+      <Seo
+        title="Page Not Found | Onur Erkoç"
+        description="The requested page could not be found on onurerkoc.dev."
+        path={window.location.pathname}
+        robots="noindex, nofollow"
+      />
 
-            <div className="backgroundGrid" />
+      <span className="wbNotFoundCode">404</span>
 
-            <section className="section notFoundSection">
-                <p className="sectionTag">
-                    404 / route not found
-                </p>
+      <h1>Route not found.</h1>
 
-                <h1>Page not found.</h1>
+      <p>
+        The requested path is not part of the current build.
+      </p>
 
-                <p className="sectionMuted">
-                    The route you requested does not exist in this
-                    build lab.
-                </p>
-
-                <Link to="/" className="projectBackLink">
-                    ← Back to build lab
-                </Link>
-            </section>
-        </main>
-    )
+      <Link to="/">return to workbench →</Link>
+    </main>
+  )
 }
 
 export default NotFoundPage
