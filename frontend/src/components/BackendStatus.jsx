@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react'
 import { getBackendHealth } from '../api/healthApi'
 
 function BackendStatus() {
-  const [message, setMessage] = useState('Checking backend...')
+  const [message, setMessage] = useState(
+    'Checking backend...'
+  )
   const [status, setStatus] = useState('checking')
 
   useEffect(() => {
@@ -34,8 +36,14 @@ function BackendStatus() {
   }, [])
 
   return (
-    <div className={`backendStatus ${status}`}>
-      <span className="backendDot" />
+    <div
+      className={`backendStatus ${status}`}
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      <span className="backendDot" aria-hidden="true" />
+
       <div>
         <strong>backend status</strong>
         <p>{message}</p>
