@@ -10,7 +10,7 @@ const homeTitle =
   'Onur Erkoç | Software Engineering Portfolio'
 
 const homeDescription =
-  'Software Engineering student Onur Erkoç builds backend and full-stack projects with Java, Spring Boot, React, PostgreSQL, Docker, and Linux.'
+  "Explore Onur Erkoç's software engineering portfolio: Java, Spring Boot, React, PostgreSQL, Docker, Linux, and production deployment case studies."
 
 const homeStructuredData = {
   '@context': 'https://schema.org',
@@ -20,7 +20,9 @@ const homeStructuredData = {
       '@id': 'https://onurerkoc.dev/#website',
       url: 'https://onurerkoc.dev/',
       name: 'onurerkoc.dev',
+      alternateName: 'Onur Erkoç Software Engineering Portfolio',
       description: homeDescription,
+      image: 'https://onurerkoc.dev/og-cover.png',
       inLanguage: 'en',
     },
     {
@@ -28,6 +30,7 @@ const homeStructuredData = {
       '@id': 'https://onurerkoc.dev/#person',
       name: 'Onur Erkoç',
       url: 'https://onurerkoc.dev/',
+      image: 'https://onurerkoc.dev/apple-touch-icon.png',
       sameAs: [
         'https://github.com/onurerkoc-dev',
       ],
